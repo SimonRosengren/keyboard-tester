@@ -25,7 +25,7 @@ export function useTypingTest() {
     completed: false
   });
 
-  const inputRef = ref<HTMLInputElement | null>(null);
+  // We'll get the inputRef from the component
 
   // Calculate WPM
   const calculateWPM = () => {
@@ -89,7 +89,6 @@ export function useTypingTest() {
 
   return {
     state,
-    inputRef,
     handleInput,
     handleKeyDown,
     resetTest
