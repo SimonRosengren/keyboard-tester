@@ -49,23 +49,27 @@ export function useTypingTest() {
     state.currentInput = input;
   };
 
-  // Handle space key to move to next word
+  // Handle key presses
   const handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key === ' ' && state.currentInput.trim() !== '') {
-      // Check if current input matches current word
-      if (state.currentInput.trim() === state.words[state.currentWordIndex]) {
-        state.currentWordIndex++;
-        state.currentInput = '';
-        
-        // Update WPM
-        if (state.startTime) {
-          state.wpm = calculateWPM();
-        }
-        
-        // Check if test is completed
-        if (state.currentWordIndex >= state.words.length) {
-          state.completed = true;
-        }
+    // Start timer on first input if not already started
+    if (!state.startTime && state.currentInput.length > 0) {
+      state.startTime = Date.now();
+    }
+
+    // If space is pressed, move to the next word regardless of correctness
+    if (event.key === ' ') {
+      // Move to next word
+      state.currentWordIndex++;
+      state.currentInput = '';
+      
+      // Update WPM
+      if (state.startTime) {
+        state.wpm = calculateWPM();
+      }
+      
+      // Check if test is completed
+      if (state.currentWordIndex >= state.words.length) {
+        state.completed = true;
       }
       
       event.preventDefault();
@@ -80,11 +84,6 @@ export function useTypingTest() {
     state.startTime = null;
     state.wpm = 0;
     state.completed = false;
-    
-    // Focus the input field
-    setTimeout(() => {
-      inputRef.value?.focus();
-    }, 0);
   };
 
   return {

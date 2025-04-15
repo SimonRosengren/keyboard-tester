@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- Input Field -->
+    <!-- Hidden Input Field -->
     <input
       v-if="!completed"
       ref="inputRef"
@@ -8,8 +8,7 @@
       :value="currentInput"
       @input="$emit('input', $event)"
       @keydown="$emit('keydown', $event)"
-      class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-      placeholder="Type here..."
+      class="absolute opacity-0 h-0"
       autocomplete="off"
       autocorrect="off"
       autocapitalize="off"
@@ -18,7 +17,7 @@
     />
     
     <!-- Completed Message -->
-    <div v-else class="text-center">
+    <div v-else class="text-center mt-6">
       <p class="text-green-600 text-xl mb-4">Test completed!</p>
       <p class="mb-4">Your typing speed: <span class="font-bold">{{ wpm }} WPM</span></p>
       <button 
