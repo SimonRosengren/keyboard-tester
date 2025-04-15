@@ -22,7 +22,7 @@
           {{ word }}
         </span>
       </div>
-      
+      <Test />     
       <!-- Input Field -->
       <input
         v-if="!state.completed"
@@ -61,7 +61,6 @@
 </template>
 
 <script setup lang="ts">
-import { useTypingTest } from '~/composables/useTypingTest';
 
 const { state, inputRef, handleInput, handleKeyDown, resetTest } = useTypingTest();
 </script>
