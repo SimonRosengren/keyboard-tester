@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gray-50 flex flex-col items-center p-8" @click="focusInput">
+  <div class="min-h-screen bg-gray-50 flex flex-col items-center p-8">
     <h1 class="text-3xl font-bold mb-8">Typing Speed Test</h1>
     
     <!-- WPM Counter -->
@@ -8,7 +8,7 @@
     </div>
     
     <!-- Words Container -->
-    <div class="max-w-2xl w-full bg-white p-6 rounded-lg shadow-md mb-6">
+    <div class="max-w-2xl w-full bg-white p-6 rounded-lg shadow-md mb-6 relative" @click="focusInput">
       <WordsDisplay 
         :words="state.words" 
         :currentWordIndex="state.currentWordIndex"
@@ -24,6 +24,18 @@
         @keydown="handleKeyDown"
         @reset="resetTest"
       />
+      
+      <!-- Focus Overlay -->
+      <div 
+        v-if="!state.completed && !isFocused" 
+        class="absolute inset-0 bg-white/70 backdrop-blur-sm flex items-center justify-center"
+        @click="focusInput"
+      >
+        <div class="text-center p-4 bg-blue-50 rounded-lg shadow-md">
+          <p class="text-lg font-medium text-blue-800 mb-2">Focus lost</p>
+          <p class="text-gray-600">Press <span class="font-bold">space</span> or <span class="font-bold">enter</span> to continue typing</p>
+        </div>
+      </div>
     </div>
     
     <!-- Instructions -->
@@ -34,18 +46,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick } from 'vue';
+import { ref, onMounted, nextTick, watch } from 'vue';
 import WordsDisplay from '~/components/WordsDisplay.vue';
 import TypingInput from '~/components/TypingInput.vue';
 
 const { state, handleInput, handleKeyDown, resetTest } = useTypingTest();
 const inputRef = ref(null);
+const isFocused = ref(true);
 
 // Focus the input field
 const focusInput = () => {
   if (inputRef.value && !state.completed) {
     inputRef.value.inputRef.value.focus();
+    isFocused.value = true;
   }
+};
+
+// Track focus state
+const handleFocusChange = (focused) => {
+  isFocused.value = focused;
 };
 
 // Focus input on mount
@@ -58,12 +77,24 @@ onMounted(() => {
   document.addEventListener('keydown', (e) => {
     // Only handle if not in an input field already
     if (document.activeElement?.tagName !== 'INPUT') {
-      // Ignore modifier keys and special keys
-      if (!e.ctrlKey && !e.altKey && !e.metaKey && 
+      // For space or enter, always focus
+      if ((e.key === ' ' || e.key === 'Enter') && !state.completed) {
+        focusInput();
+        e.preventDefault();
+      }
+      // For other keys, only focus if they're typing characters
+      else if (!e.ctrlKey && !e.altKey && !e.metaKey && 
           e.key.length === 1 && !state.completed) {
         focusInput();
       }
     }
   });
+  
+  // Track focus and blur events
+  if (inputRef.value) {
+    const inputElement = inputRef.value.inputRef.value;
+    inputElement.addEventListener('focus', () => handleFocusChange(true));
+    inputElement.addEventListener('blur', () => handleFocusChange(false));
+  }
 });
 </script>

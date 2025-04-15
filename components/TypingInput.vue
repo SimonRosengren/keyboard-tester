@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 
 const props = defineProps<{
   currentInput: string;
@@ -46,6 +46,20 @@ defineEmits<{
 }>();
 
 const inputRef = ref<HTMLInputElement | null>(null);
+
+// Set up focus/blur event handlers
+onMounted(() => {
+  if (inputRef.value) {
+    // These events will bubble up to the parent component
+    inputRef.value.addEventListener('focus', () => {
+      // Focus event
+    });
+    
+    inputRef.value.addEventListener('blur', () => {
+      // Blur event
+    });
+  }
+});
 
 defineExpose({ inputRef });
 </script>
