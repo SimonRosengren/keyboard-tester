@@ -74,7 +74,9 @@ onMounted(() => {
   });
   
   // Set up a key event listener on the document to ensure focus is maintained
-  document.addEventListener('keydown', (e) => {
+  // Only add event listeners on the client side
+  if (process.client) {
+    document.addEventListener('keydown', (e) => {
     // Only handle if not in an input field already
     if (document.activeElement?.tagName !== 'INPUT') {
       // For space or enter, always focus
@@ -88,13 +90,17 @@ onMounted(() => {
         focusInput();
       }
     }
-  });
+    });
+  }
   
   // Track focus and blur events
-  if (inputRef.value) {
-    const inputElement = inputRef.value.inputRef.value;
-    inputElement.addEventListener('focus', () => handleFocusChange(true));
-    inputElement.addEventListener('blur', () => handleFocusChange(false));
-  }
+  // Use nextTick to ensure component is mounted and check for client-side execution
+  nextTick(() => {
+    if (process.client && inputRef.value && inputRef.value.inputRef && inputRef.value.inputRef.value) {
+      const inputElement = inputRef.value.inputRef.value;
+      inputElement.addEventListener('focus', () => handleFocusChange(true));
+      inputElement.addEventListener('blur', () => handleFocusChange(false));
+    }
+  });
 });
 </script>

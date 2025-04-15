@@ -49,7 +49,8 @@ const inputRef = ref<HTMLInputElement | null>(null);
 
 // Set up focus/blur event handlers
 onMounted(() => {
-  if (inputRef.value) {
+  // Only run in browser environment
+  if (process.client && inputRef.value) {
     // These events will bubble up to the parent component
     inputRef.value.addEventListener('focus', () => {
       // Focus event
