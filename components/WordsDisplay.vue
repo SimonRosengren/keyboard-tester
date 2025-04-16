@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-wrap gap-2 mb-6 relative">
+  <div class="flex flex-wrap gap-2 mb-6 relative bg-primary-400">
     <span 
       v-for="(word, index) in words" 
       :key="index"
