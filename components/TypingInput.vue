@@ -43,6 +43,8 @@ defineEmits<{
   (e: 'input', event: Event): void;
   (e: 'keydown', event: KeyboardEvent): void;
   (e: 'reset'): void;
+  (e: 'focus', focused: boolean): void;
+  (e: 'blur', focused: boolean): void;
 }>();
 
 const inputRef = ref<HTMLInputElement | null>(null);
@@ -54,10 +56,12 @@ onMounted(() => {
     // These events will bubble up to the parent component
     inputRef.value.addEventListener('focus', () => {
       // Focus event
+      $emit('focus', true);
     });
     
     inputRef.value.addEventListener('blur', () => {
       // Blur event
+      $emit('blur', false);
     });
   }
 });

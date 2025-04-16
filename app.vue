@@ -23,6 +23,8 @@
         @input="handleInput"
         @keydown="handleKeyDown"
         @reset="resetTest"
+        @focus="handleFocusChange(true)"
+        @blur="handleFocusChange(false)"
       />
       
       <!-- Focus Overlay -->
@@ -63,7 +65,7 @@ const focusInput = () => {
 };
 
 // Track focus state
-const handleFocusChange = (focused) => {
+const handleFocusChange = (focused: boolean) => {
   isFocused.value = focused;
 };
 
@@ -93,14 +95,6 @@ onMounted(() => {
     });
   }
   
-  // Track focus and blur events
-  // Use nextTick to ensure component is mounted and check for client-side execution
-  nextTick(() => {
-    if (process.client && inputRef.value && inputRef.value.inputRef && inputRef.value.inputRef.value) {
-      const inputElement = inputRef.value.inputRef.value;
-      inputElement.addEventListener('focus', () => handleFocusChange(true));
-      inputElement.addEventListener('blur', () => handleFocusChange(false));
-    }
-  });
+  // No longer need to manually track focus/blur events here as they're now emitted from the component
 });
 </script>
