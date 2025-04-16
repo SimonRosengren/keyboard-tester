@@ -80,7 +80,7 @@ onMounted(() => {
     // Only handle if not in an input field already
     if (document.activeElement?.tagName !== 'INPUT') {
       // For space or enter, always focus
-      if ((e.key === ' ' || e.key === 'Enter') && !state.completed) {
+      if ((e.key === 'Enter') && !state.completed) {
         focusInput();
         e.preventDefault();
       }
