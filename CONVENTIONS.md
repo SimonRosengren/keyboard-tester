@@ -7,3 +7,4 @@
 - Give simple suggestions if possible. Complexity has never helped anyone.
 - Use typescript where ever possible
 - Use tailwind for styling
+- Keep comments to a minimum. Only comment on very complex parts

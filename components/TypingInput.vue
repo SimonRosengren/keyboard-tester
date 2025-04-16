@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted } from 'vue';
 
 const props = defineProps<{
   currentInput: string;
@@ -39,7 +39,7 @@ const props = defineProps<{
   wpm: number;
 }>();
 
-defineEmits<{
+const emit = defineEmits<{
   (e: 'input', event: Event): void;
   (e: 'keydown', event: KeyboardEvent): void;
   (e: 'reset'): void;
@@ -49,20 +49,33 @@ defineEmits<{
 
 const inputRef = ref<HTMLInputElement | null>(null);
 
-// Set up focus/blur event handlers
+// Focus the input field
+const focusInput = () => {
+  if (inputRef.value && !props.completed) {
+    inputRef.value.focus();
+  }
+};
+
 onMounted(() => {
-  // Only run in browser environment
   if (process.client && inputRef.value) {
-    // These events will bubble up to the parent component
+    document.addEventListener('keydown', (e) => {
+      if (document.activeElement?.tagName !== 'INPUT') {
+        if ((e.key === 'Enter') && !props.completed) {
+          focusInput();
+          e.preventDefault();
+        }
+      }
+    });
+
     inputRef.value.addEventListener('focus', () => {
-      // Focus event
-      $emit('focus', true);
+      emit('focus', true);
     });
     
     inputRef.value.addEventListener('blur', () => {
-      // Blur event
-      $emit('blur', false);
+      emit('blur', false);
     });
+
+    focusInput();
   }
 });
 

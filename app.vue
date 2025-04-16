@@ -56,45 +56,11 @@ const { state, handleInput, handleKeyDown, resetTest } = useTypingTest();
 const inputRef = ref(null);
 const isFocused = ref(true);
 
-// Focus the input field
-const focusInput = () => {
-  if (inputRef.value && !state.completed) {
-    inputRef.value.inputRef.value.focus();
-    isFocused.value = true;
-  }
-};
+
 
 // Track focus state
 const handleFocusChange = (focused: boolean) => {
   isFocused.value = focused;
 };
 
-// Focus input on mount
-onMounted(() => {
-  nextTick(() => {
-    focusInput();
-  });
-  
-  // Set up a key event listener on the document to ensure focus is maintained
-  // Only add event listeners on the client side
-  if (process.client) {
-    document.addEventListener('keydown', (e) => {
-    // Only handle if not in an input field already
-    if (document.activeElement?.tagName !== 'INPUT') {
-      // For space or enter, always focus
-      if ((e.key === 'Enter') && !state.completed) {
-        focusInput();
-        e.preventDefault();
-      }
-      // For other keys, only focus if they're typing characters
-      else if (!e.ctrlKey && !e.altKey && !e.metaKey && 
-          e.key.length === 1 && !state.completed) {
-        focusInput();
-      }
-    }
-    });
-  }
-  
-  // No longer need to manually track focus/blur events here as they're now emitted from the component
-});
 </script>
