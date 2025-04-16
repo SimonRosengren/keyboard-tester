@@ -1,75 +1,59 @@
-# Nuxt Minimal Starter
+# ⌨️ Speed Typer - Test Your Keyboard Skills!
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Welcome to **Speed Typer** - where fingers fly and keyboards cry! This app helps you measure and improve your typing speed in a fun, distraction-free environment.
 
-## Setup
+## 🚧 Work in Progress 🚧
 
-Make sure to install dependencies:
+This project is an ongoing experiment built with Nuxt 3, TypeScript, and Tailwind CSS. It's also my playground for experimenting with AI-assisted development using Aider!
+
+Think of it as a digital gym for your fingers - but without the monthly membership fees.
+
+## 🚀 Features
+
+- Real-time WPM (Words Per Minute) calculation
+- Visual feedback on typing accuracy
+- Minimalist, distraction-free interface
+- Press Enter to focus and start typing anytime
+
+## 🛠️ Setup
 
 ```bash
-# npm
+# Install dependencies with your favorite package manager
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
+# or
 yarn install
-
-# bun
+# or
+pnpm install
+# or
 bun install
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+## 🏃‍♂️ Development
 
 ```bash
-# npm
+# Start the development server
 npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
+# or
 yarn dev
-
-# bun
+# or
+pnpm dev
+# or
 bun run dev
 ```
 
-## Production
+Then visit `http://localhost:3000` and start typing!
 
-Build the application for production:
+## 🔮 Future Plans
 
-```bash
-# npm
-npm run build
+- User accounts to track progress
+- Different test modes (time-based, quote-based)
+- Customizable word lists
+- Global leaderboards
 
-# pnpm
-pnpm build
+## 💡 Contributing
 
-# yarn
-yarn build
+Got ideas? Found a bug? Feel free to open an issue or submit a PR. All contributions welcome!
 
-# bun
-bun run build
-```
+## 📝 License
 
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+MIT - Go wild!
