@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-wrap gap-2 mb-6 relative bg-primary-400">
+  <div class="flex flex-wrap gap-2 mb-6 relative">
     <span 
       v-for="(word, index) in words" 
       :key="index"
@@ -8,21 +8,21 @@
         'text-black': index < currentWordIndex,
         'font-medium': index === currentWordIndex
       }"
-      class="relative"
+      class="relative text-2xl"
     >
       <template v-if="index === currentWordIndex">
         <span v-for="(char, charIndex) in word.split('')" :key="`${index}-${charIndex}`" class="relative">
           <!-- Character with color based on correctness -->
           <span :class="{
             'text-black': charIndex < currentInput.length && char === currentInput[charIndex],
-            'text-red-500': charIndex < currentInput.length && char !== currentInput[charIndex],
-            'text-gray-400': charIndex >= currentInput.length
+            'text-red-700': charIndex < currentInput.length && char !== currentInput[charIndex],
+            'text-gray-600': charIndex >= currentInput.length
           }">{{ char }}</span>
           
           <!-- Cursor -->
           <span 
             v-if="charIndex === currentInput.length" 
-            class="absolute top-0 left-0 w-[2px] h-full bg-blue-500 animate-pulse"
+            class="absolute top-0 left-0 w-[2px] h-full bg-black animate-pulse"
             style="transform: translateX(-1px);"
           ></span>
         </span>

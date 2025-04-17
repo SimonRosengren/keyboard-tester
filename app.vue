@@ -1,14 +1,14 @@
 <template>
-  <div class="min-h-screen bg-gray-50 flex flex-col items-center p-8">
-    <h1 class="text-3xl font-bold mb-8">Typing Speed Test</h1>
-    
+  <div class="min-h-screen bg-cream-100 flex flex-col items-center justify-center">
     <!-- WPM Counter -->
     <div class="mb-6 text-xl">
       <span class="font-semibold">WPM:</span> {{ state.wpm }}
     </div>
     
     <!-- Words Container -->
-    <div class="max-w-2xl w-full bg-white p-6 rounded-lg shadow-md mb-6 relative" @click="focusInput">
+    <div
+      class="max-w-2xl w-full p-6 mb-6 relative"
+    >
       <WordsDisplay 
         :words="state.words" 
         :currentWordIndex="state.currentWordIndex"
@@ -30,12 +30,12 @@
       <!-- Focus Overlay -->
       <div 
         v-if="!state.completed && !isFocused" 
-        class="absolute inset-0 bg-white/70 backdrop-blur-sm flex items-center justify-center"
+        class="absolute inset-0 backdrop-blur-sm flex items-center justify-center"
         @click="focusInput"
       >
-        <div class="text-center p-4 bg-blue-50 rounded-lg shadow-md">
-          <p class="text-lg font-medium text-blue-800 mb-2">Focus lost</p>
-          <p class="text-gray-600">Press <span class="font-bold">space</span> or <span class="font-bold">enter</span> to continue typing</p>
+        <div class="text-center bg-cream-100 p-6 bg-cream rounded-lg shadow-md">
+          <p class="text-lg font-medium text-black mb-2">Focus lost</p>
+          <p class="text-gray-600">Press <span class="font-bold">enter</span> to continue typing</p>
         </div>
       </div>
     </div>
