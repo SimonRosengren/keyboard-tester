@@ -1,4 +1,5 @@
-# ⌨️ Speed Typer - Test Your Keyboard Skills!
+# ![image](https://github.com/user-attachments/assets/c23d728f-3ce9-49a2-b083-2bf377248261)
+
 
 Welcome to **Speed Typer** - where fingers fly and keyboards cry! This app helps you measure and improve your typing speed in a fun, distraction-free environment.
 
