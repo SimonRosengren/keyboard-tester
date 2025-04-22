@@ -1,5 +1,5 @@
-import { ref, computed, reactive } from 'vue';
-import type { TypingState } from '~/types';
+import { ref, computed, reactive, onMounted } from 'vue';
+import type { TypingState, TypingScore } from '~/types';
 
 // List of common words for the typing test
 const wordList = [
@@ -22,10 +22,27 @@ export function useTypingTest() {
     currentInput: '',
     startTime: null,
     wpm: 0,
-    completed: false
+    completed: false,
+    correctChars: 0,
+    incorrectChars: 0
   });
 
-  // We'll get the inputRef from the component
+  const highScore = ref<number | null>(null);
+  const { saveScore: saveToDb, getHighestScore } = useIndexedDB();
+
+  // Load high score on mount
+  onMounted(async () => {
+    if (process.client) {
+      try {
+        const score = await getHighestScore();
+        if (score) {
+          highScore.value = score.wpm;
+        }
+      } catch (err) {
+        console.error('Failed to load high score:', err);
+      }
+    }
+  });
 
   // Calculate WPM
   const calculateWPM = () => {
@@ -37,13 +54,38 @@ export function useTypingTest() {
     return Math.round(wordCount / timeElapsed);
   };
 
+  // Calculate accuracy
+  const calculateAccuracy = () => {
+    const totalChars = state.correctChars + state.incorrectChars;
+    return totalChars > 0 ? (state.correctChars / totalChars) * 100 : 0;
+  };
+
   // Handle input changes
   const handleInput = (event: Event) => {
     const input = (event.target as HTMLInputElement).value;
+    const prevInput = state.currentInput;
     
     // Start timer on first input
     if (!state.startTime && input.length > 0) {
       state.startTime = Date.now();
+    }
+    
+    // Track accuracy by comparing with current word
+    const currentWord = state.words[state.currentWordIndex];
+    
+    // If input is longer than previous input, check the new character
+    if (input.length > prevInput.length) {
+      const newCharIndex = input.length - 1;
+      if (newCharIndex < currentWord.length) {
+        if (input[newCharIndex] === currentWord[newCharIndex]) {
+          state.correctChars++;
+        } else {
+          state.incorrectChars++;
+        }
+      } else {
+        // Extra character beyond word length
+        state.incorrectChars++;
+      }
     }
     
     state.currentInput = input;
@@ -70,9 +112,37 @@ export function useTypingTest() {
       // Check if test is completed
       if (state.currentWordIndex >= state.words.length) {
         state.completed = true;
+        saveScore();
       }
       
       event.preventDefault();
+    }
+  };
+
+  // Save score to IndexedDB
+  const saveScore = async () => {
+    if (!state.startTime || !state.completed) return;
+    
+    const endTime = Date.now();
+    const duration = (endTime - state.startTime) / 1000; // in seconds
+    const accuracy = calculateAccuracy();
+    
+    try {
+      await saveToDb({
+        wpm: state.wpm,
+        accuracy,
+        date: new Date(),
+        wordCount: state.words.length,
+        duration,
+        synced: false
+      });
+      
+      // Update high score if needed
+      if (highScore.value === null || state.wpm > highScore.value) {
+        highScore.value = state.wpm;
+      }
+    } catch (err) {
+      console.error('Failed to save score:', err);
     }
   };
 
@@ -84,10 +154,13 @@ export function useTypingTest() {
     state.startTime = null;
     state.wpm = 0;
     state.completed = false;
+    state.correctChars = 0;
+    state.incorrectChars = 0;
   };
 
   return {
     state,
+    highScore,
     handleInput,
     handleKeyDown,
     resetTest

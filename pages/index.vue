@@ -1,8 +1,13 @@
 <template>
   <div class="min-h-screen bg-kq-white dark:bg-kq-black text-kq-black dark:text-kq-white flex flex-col items-center justify-center">
-    <!-- WPM Counter -->
-    <div class="mb-6 text-xl">
-      <span class="font-semibold">WPM:</span> {{ state.wpm }}
+    <!-- WPM Counter and High Score -->
+    <div class="mb-6 text-xl flex gap-6">
+      <div>
+        <span class="font-semibold">WPM:</span> {{ state.wpm }}
+      </div>
+      <div v-if="highScore">
+        <span class="font-semibold">High Score:</span> {{ highScore }}
+      </div>
     </div>
     
     <!-- Words Container -->
@@ -52,7 +57,7 @@ import { ref, onMounted, nextTick, watch } from 'vue';
 import WordsDisplay from '~/components/WordsDisplay.vue';
 import TypingInput from '~/components/TypingInput.vue';
 
-const { state, handleInput, handleKeyDown, resetTest } = useTypingTest();
+const { state, highScore, handleInput, handleKeyDown, resetTest } = useTypingTest();
 const inputRef = ref(null);
 const isFocused = ref(true);
 

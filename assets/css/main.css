@@ -1,7 +1,10 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
+:root {
   --color-kq-white: #F1EEDC;
+  --color-kq-black: #0A0A0C;
   --color-kq-black-100: #1F1F22;
   --color-kq-black-200: #0A0A0C;
   --color-kq-black-300: #050507;
