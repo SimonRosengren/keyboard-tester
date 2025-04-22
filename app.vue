@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-cream-100 flex flex-col items-center justify-center">
+  <div class="min-h-screen bg-kq-white dark:bg-kq-black text-kq-black dark:text-kq-white flex flex-col items-center justify-center">
     <!-- WPM Counter -->
     <div class="mb-6 text-xl">
       <span class="font-semibold">WPM:</span> {{ state.wpm }}
@@ -33,9 +33,9 @@
         class="absolute inset-0 backdrop-blur-sm flex items-center justify-center"
         @click="focusInput"
       >
-        <div class="text-center bg-cream-100 p-6 bg-cream rounded-lg shadow-md">
-          <p class="text-lg font-medium text-black mb-2">Focus lost</p>
-          <p class="text-gray-600">Press <span class="font-bold">enter</span> to continue typing</p>
+        <div class="text-center bg-kq-pink p-6 border-2 rounded-lg border-kq-yellow shadow-md">
+          <p class="text-lg text-kq-black font-medium mb-2">Focus lost</p>
+          <p class="text-kq-black">Press <span class="font-bold">enter</span> to continue typing</p>
         </div>
       </div>
     </div>
