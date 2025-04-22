@@ -7,4 +7,8 @@
 - Give simple suggestions if possible. Complexity has never helped anyone.
 - Use typescript where ever possible
 - Use tailwind for styling
+- When styling components, always style for both light- and dark mode. 
+- I am using tailwind v4 so the configs for this live under main.css
+- Do NOT change the imports in main.css
 - Keep comments to a minimum. Only comment on very complex parts
+- I'm using NUXT 3 so there is no need to import components or vue-specific functions etc. 

@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-kq-white dark:bg-kq-black text-kq-black dark:text-kq-white flex flex-col items-center justify-center">
+  <div class="min-h-screen bg-kq-white dark:bg-kq-black-300 text-kq-black-300 dark:text-kq-white flex flex-col items-center justify-center">
     <!-- WPM Counter and High Score -->
     <div class="mb-6 text-xl flex gap-6">
       <div>
