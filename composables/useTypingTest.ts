@@ -15,6 +15,10 @@ export function useTypingTest() {
     const shuffled = [...wordList].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
   };
+  
+  const { saveScore } = useIndexedDB();
+  const { syncNewScore } = useSyncScores();
+  const user = useSupabaseUser();
 
   const state = reactive<TypingState>({
     words: getRandomWords(),
@@ -119,7 +123,7 @@ export function useTypingTest() {
     }
   };
 
-  // Save score to IndexedDB
+  // Save score to IndexedDB and sync to Supabase
   const saveScore = async () => {
     if (!state.startTime || !state.completed) return;
     
@@ -128,14 +132,23 @@ export function useTypingTest() {
     const accuracy = calculateAccuracy();
     
     try {
-      await saveToDb({
+      const score = {
         wpm: state.wpm,
         accuracy,
         date: new Date(),
         wordCount: state.words.length,
         duration,
-        synced: false
-      });
+        synced: false,
+        userId: user.value?.id
+      };
+      
+      // Save to IndexedDB first
+      const scoreId = await saveToDb(score);
+      
+      // Then try to sync with Supabase
+      if (navigator.onLine) {
+        await syncNewScore({ ...score, id: scoreId });
+      }
       
       // Update high score if needed
       if (highScore.value === null || state.wpm > highScore.value) {
