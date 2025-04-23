@@ -32,7 +32,7 @@ export function useTypingTest() {
   });
 
   const highScore = ref<number | null>(null);
-  const { saveScore: saveToDb, getHighestScore } = useIndexedDB();
+  const { getHighestScore } = useIndexedDB();
 
   // Load high score on mount
   onMounted(async () => {
@@ -116,7 +116,7 @@ export function useTypingTest() {
       // Check if test is completed
       if (state.currentWordIndex >= state.words.length) {
         state.completed = true;
-        saveScore();
+        saveTestScore();
       }
       
       event.preventDefault();
@@ -124,7 +124,7 @@ export function useTypingTest() {
   };
 
   // Save score to IndexedDB and sync to Supabase
-  const saveScore = async () => {
+  const saveTestScore = async () => {
     if (!state.startTime || !state.completed) return;
     
     const endTime = Date.now();
@@ -143,7 +143,7 @@ export function useTypingTest() {
       };
       
       // Save to IndexedDB first
-      const scoreId = await saveToDb(score);
+      const scoreId = await saveScore(score);
       
       // Then try to sync with Supabase
       if (navigator.onLine) {
@@ -176,6 +176,7 @@ export function useTypingTest() {
     highScore,
     handleInput,
     handleKeyDown,
-    resetTest
+    resetTest,
+    saveTestScore
   };
 }
