@@ -6,6 +6,9 @@
         <NuxtLink to="/" class="hover:text-kq-yellow">Test</NuxtLink>
         <NuxtLink to="/history" class="hover:text-kq-yellow">History</NuxtLink>
         
+        <!-- Sync status -->
+        <SyncStatus v-if="user" />
+        
         <!-- Auth section -->
         <div class="ml-6 flex items-center">
           <template v-if="user">

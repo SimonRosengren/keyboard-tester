@@ -15,6 +15,8 @@ Think of it as a digital gym for your fingers - but without the monthly membersh
 - Visual feedback on typing accuracy
 - Minimalist, distraction-free interface
 - Press Enter to focus and start typing anytime
+- User authentication with Supabase
+- Highscore syncing between devices
 
 ## 🛠️ Setup
 

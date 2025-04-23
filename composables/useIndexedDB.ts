@@ -36,6 +36,7 @@ export function useIndexedDB() {
           store.createIndex('date', 'date', { unique: false });
           store.createIndex('wpm', 'wpm', { unique: false });
           store.createIndex('synced', 'synced', { unique: false });
+          store.createIndex('userId', 'userId', { unique: false });
         }
       };
     });
@@ -214,6 +215,59 @@ export function useIndexedDB() {
     });
   };
 
+  // Update user ID for scores (for when a user logs in)
+  const updateUserIdForScores = async (userId: string) => {
+    if (!db.value) {
+      await initDB();
+    }
+
+    return new Promise<number>((resolve, reject) => {
+      if (!db.value) {
+        reject('Database not initialized');
+        return;
+      }
+
+      const transaction = db.value.transaction(['scores'], 'readwrite');
+      const store = transaction.objectStore('scores');
+      const request = store.getAll();
+      
+      request.onsuccess = () => {
+        const scores = request.result;
+        const anonymousScores = scores.filter(score => !score.userId);
+        let updated = 0;
+        
+        if (anonymousScores.length === 0) {
+          resolve(0);
+          return;
+        }
+        
+        const updateTransaction = db.value!.transaction(['scores'], 'readwrite');
+        const updateStore = updateTransaction.objectStore('scores');
+        
+        anonymousScores.forEach(score => {
+          score.userId = userId;
+          score.synced = false; // Mark for re-sync with new userId
+          const updateRequest = updateStore.put(score);
+          
+          updateRequest.onsuccess = () => {
+            updated++;
+            if (updated === anonymousScores.length) {
+              resolve(updated);
+            }
+          };
+          
+          updateRequest.onerror = () => {
+            reject('Error updating user ID for scores');
+          };
+        });
+      };
+      
+      request.onerror = () => {
+        reject('Error getting scores to update user ID');
+      };
+    });
+  };
+
   onMounted(() => {
     if (process.client) {
       initDB();
@@ -227,6 +281,7 @@ export function useIndexedDB() {
     getScores,
     getHighestScore,
     getUnsyncedScores,
-    markAsSynced
+    markAsSynced,
+    updateUserIdForScores
   };
 }
