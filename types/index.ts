@@ -9,8 +9,18 @@ export interface TypingState {
   incorrectChars: number;
 }
 
+export interface User {
+  id: string;
+  email?: string;
+  user_metadata?: {
+    name?: string;
+    avatar_url?: string;
+  };
+}
+
 export interface TypingScore {
   id?: number;
+  userId?: string;
   wpm: number;
   accuracy: number;
   date: Date;
