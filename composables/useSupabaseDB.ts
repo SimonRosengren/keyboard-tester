@@ -10,8 +10,12 @@ export function useSupabaseDB() {
       const { data, error } = await client
         .from('scores')
         .insert({
-          ...score,
-          userId: user.value?.id || null
+          wpm: score.wpm,
+          accuracy: score.accuracy,
+          date: score.date,
+          word_count: score.wordCount,
+          duration: score.duration,
+          user_id: user.value?.id || null
         })
         .select()
         .single()
@@ -30,11 +34,22 @@ export function useSupabaseDB() {
       const { data, error } = await client
         .from('scores')
         .select('*')
-        .eq('userId', user.value?.id)
+        .eq('user_id', user.value?.id)
         .order('date', { ascending: false })
 
       if (error) throw error
-      return data as TypingScore[]
+      
+      // Convert from snake_case to camelCase for frontend use
+      return data.map(score => ({
+        id: score.id,
+        userId: score.user_id,
+        wpm: score.wpm,
+        accuracy: score.accuracy,
+        date: new Date(score.date),
+        wordCount: score.word_count,
+        duration: score.duration,
+        synced: true
+      })) as TypingScore[]
     } catch (error: any) {
       console.error('Error getting user scores from Supabase:', error.message)
       return []
@@ -58,16 +73,16 @@ export function useSupabaseDB() {
     }
   }
 
-  // Claim anonymous scores by updating their userId
+  // Claim anonymous scores by updating their user_id
   const claimAnonymousScores = async (scoreIds: number[]) => {
     if (!user.value?.id || scoreIds.length === 0) return
 
     try {
       const { error } = await client
         .from('scores')
-        .update({ userId: user.value.id })
+        .update({ user_id: user.value.id })
         .in('id', scoreIds)
-        .is('userId', null)
+        .is('user_id', null)
 
       if (error) throw error
       return true
