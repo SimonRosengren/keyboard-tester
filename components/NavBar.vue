@@ -41,10 +41,10 @@ const router = useRouter()
 const userStore = useUserStore()
 const supabaseUser = useSupabaseUser()
 
-// Watch for Supabase user changes and update the store
-watch(supabaseUser, (newUser) => {
-  userStore.setUser(newUser.value)
-}, { immediate: true })
+// // Watch for Supabase user changes and update the store
+// watch(supabaseUser, (newUser) => {
+//   userStore.setUser(newUser.value)
+// }, { immediate: true })
 
 async function handleLogout() {
   await userStore.logout()
