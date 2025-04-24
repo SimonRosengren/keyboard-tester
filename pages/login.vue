@@ -29,6 +29,11 @@
             required
             class="mt-1 block w-full px-3 py-2 border border-kq-black-100 rounded-md shadow-sm focus:outline-none focus:ring-kq-blue focus:border-kq-blue bg-kq-black-300 text-kq-white"
           />
+          <div class="mt-1 text-right">
+            <NuxtLink to="/reset-password" class="text-xs text-kq-blue hover:text-kq-blue/80">
+              Forgot password?
+            </NuxtLink>
+          </div>
         </div>
         
         <div>
