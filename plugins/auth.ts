@@ -5,6 +5,25 @@ export default defineNuxtPlugin({
     const user = useSupabaseUser()
     const { updateUserIdForScores } = useIndexedDB()
     const { syncAllScores } = useSyncScores()
+    const route = useRoute()
+    const router = useRouter()
+    
+    // Handle email confirmation redirects
+    if (process.client) {
+      const hash = window.location.hash
+      if (hash && hash.includes('type=email_confirmation')) {
+        // Extract token from hash
+        const hashParams = new URLSearchParams(hash.substring(1))
+        const token = hashParams.get('access_token')
+        const type = hashParams.get('type')
+        
+        if (token && type === 'email_confirmation') {
+          // Redirect to confirmation page with token
+          router.push(`/confirm?token=${token}&type=${type}`)
+          return
+        }
+      }
+    }
     
     // Watch for user login
     watch(user, async (newUser, oldUser) => {

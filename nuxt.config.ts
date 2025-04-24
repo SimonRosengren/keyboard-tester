@@ -17,6 +17,11 @@ export default defineNuxtConfig({
       login: '/login',
       callback: '/confirm',
       exclude: ['/', '/history'],
+      cookieOptions: {
+        maxAge: 60 * 60 * 8, // 8 hours
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production'
+      }
     }
   },
   vite: {
