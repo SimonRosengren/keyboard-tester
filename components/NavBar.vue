@@ -7,13 +7,13 @@
         <NuxtLink to="/history" class="hover:text-kq-yellow">History</NuxtLink>
         
         <!-- Sync status -->
-        <SyncStatus v-if="user" />
+        <SyncStatus v-if="userStore.isLoggedIn" />
         
         <!-- Auth section -->
         <div class="ml-6 flex items-center">
-          <template v-if="user">
+          <template v-if="userStore.isLoggedIn">
             <div class="flex items-center gap-4">
-              <span class="text-sm">{{ user.email }}</span>
+              <span class="text-sm">{{ userStore.email }}</span>
               <button 
                 @click="handleLogout" 
                 class="px-3 py-1 text-sm font-medium text-kq-black-200 bg-kq-yellow rounded-md hover:bg-opacity-90"
@@ -37,12 +37,17 @@
 </template>
 
 <script setup lang="ts">
-const client = useSupabaseClient()
-const user = useSupabaseUser()
 const router = useRouter()
+const userStore = useUserStore()
+const supabaseUser = useSupabaseUser()
+
+// Watch for Supabase user changes and update the store
+watch(supabaseUser, (newUser) => {
+  userStore.setUser(newUser.value)
+}, { immediate: true })
 
 async function handleLogout() {
-  await client.auth.signOut()
+  await userStore.logout()
   router.push('/')
 }
 </script>
