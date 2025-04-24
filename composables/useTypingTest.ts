@@ -50,12 +50,16 @@ export function useTypingTest() {
     });
   }
 
+  // Track correctly typed words
+  const correctWords = ref<number>(0);
+  
   // Calculate WPM
   const calculateWPM = () => {
     if (!state.startTime) return 0;
     
     const timeElapsed = (Date.now() - state.startTime) / 1000 / 60; // in minutes
-    const wordCount = state.currentWordIndex;
+    // Only count correctly typed words
+    const wordCount = correctWords.value;
     
     return Math.round(wordCount / timeElapsed);
   };
@@ -104,8 +108,17 @@ export function useTypingTest() {
       state.startTime = Date.now();
     }
 
-    // If space is pressed, move to the next word regardless of correctness
+    // If space is pressed, move to the next word
     if (event.key === ' ') {
+      // Check if the word was typed correctly
+      const currentWord = state.words[state.currentWordIndex];
+      const isCorrect = state.currentInput.trim() === currentWord;
+      
+      // Only increment correct words count if the word was typed correctly
+      if (isCorrect) {
+        correctWords.value++;
+      }
+      
       // Move to next word
       state.currentWordIndex++;
       state.currentInput = '';
@@ -172,6 +185,7 @@ export function useTypingTest() {
     state.completed = false;
     state.correctChars = 0;
     state.incorrectChars = 0;
+    correctWords.value = 0;
   };
 
   return {
