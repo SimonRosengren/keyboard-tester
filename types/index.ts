@@ -21,10 +21,12 @@ export interface User {
 export interface TypingScore {
   id?: number;
   userId?: string;
+  anonymousId?: string;
   wpm: number;
   accuracy: number;
   date: Date;
   wordCount: number;
   duration: number;
   synced: boolean;
+  remote?: boolean; // Indicates if the score is from remote database
 }
