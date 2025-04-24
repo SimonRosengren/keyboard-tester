@@ -61,7 +61,7 @@ export function useSupabaseDB() {
     try {
       const { data, error } = await client
         .from('scores')
-        .select('*, profiles(username)')
+        .select('*')
         .order('wpm', { ascending: false })
         .limit(limit)
 
