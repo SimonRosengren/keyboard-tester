@@ -102,21 +102,22 @@ export function useSyncScores() {
   }
 
   // Setup online/offline listeners to sync when connection is restored
-  onMounted(() => {
-    if (process.client) {
-      window.addEventListener('online', () => {
-        syncAllScores()
-      })
-    }
-  })
-
-  onUnmounted(() => {
-    if (process.client) {
-      window.removeEventListener('online', () => {
-        syncAllScores()
-      })
-    }
-  })
+  let syncOnlineHandler: (() => void) | null = null;
+  
+  if (process.client) {
+    // Register lifecycle hooks before any async operations
+    onMounted(() => {
+      syncOnlineHandler = () => syncAllScores();
+      window.addEventListener('online', syncOnlineHandler);
+    });
+    
+    onUnmounted(() => {
+      if (syncOnlineHandler) {
+        window.removeEventListener('online', syncOnlineHandler);
+        syncOnlineHandler = null;
+      }
+    });
+  }
 
   return {
     syncNewScore,

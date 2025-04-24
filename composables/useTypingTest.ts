@@ -34,19 +34,21 @@ export function useTypingTest() {
   const highScore = ref<number | null>(null);
   const { getHighestScore } = useIndexedDB();
 
-  // Load high score on mount
-  onMounted(async () => {
-    if (process.client) {
-      try {
-        const score = await getHighestScore();
-        if (score) {
-          highScore.value = score.wpm;
-        }
-      } catch (err) {
-        console.error('Failed to load high score:', err);
-      }
-    }
-  });
+  // Register lifecycle hooks before any async operations
+  if (process.client) {
+    onMounted(() => {
+      // Load high score
+      getHighestScore()
+        .then(score => {
+          if (score) {
+            highScore.value = score.wpm;
+          }
+        })
+        .catch(err => {
+          console.error('Failed to load high score:', err);
+        });
+    });
+  }
 
   // Calculate WPM
   const calculateWPM = () => {

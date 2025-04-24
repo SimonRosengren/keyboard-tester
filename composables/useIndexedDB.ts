@@ -268,11 +268,17 @@ export function useIndexedDB() {
     });
   };
 
-  onMounted(() => {
-    if (process.client) {
-      initDB();
-    }
-  });
+  // Register lifecycle hooks before any async operations
+  let initialized = false;
+  
+  if (process.client) {
+    onMounted(() => {
+      if (!initialized) {
+        initDB();
+        initialized = true;
+      }
+    });
+  }
 
   return {
     isReady,
