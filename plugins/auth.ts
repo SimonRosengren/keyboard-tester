@@ -8,10 +8,10 @@ export default defineNuxtPlugin({
     const route = useRoute()
     const router = useRouter()
     
-    // Handle email confirmation redirects
+    // Handle email confirmation and password reset redirects
     if (process.client) {
       const hash = window.location.hash
-      if (hash && hash.includes('type=email_confirmation')) {
+      if (hash) {
         // Extract token from hash
         const hashParams = new URLSearchParams(hash.substring(1))
         const token = hashParams.get('access_token')
@@ -21,6 +21,12 @@ export default defineNuxtPlugin({
           // Redirect to confirmation page with token
           router.push(`/confirm?token=${token}&type=${type}`)
           return
+        }
+        
+        if (token && type === 'recovery') {
+          // For password reset, we don't need to redirect as the update-password page
+          // will handle it directly through the Supabase client
+          console.log('Password reset flow detected')
         }
       }
     }
