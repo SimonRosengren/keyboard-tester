@@ -13,7 +13,7 @@ export function useHighScores() {
     
     try {
       // Get scores from both sources
-      const [localScores, remoteScores] = await Promise.all([
+      const [localScore, remoteScores] = await Promise.all([
         getHighestScore(),
         getLeaderboard(limit)
       ])
@@ -25,33 +25,28 @@ export function useHighScores() {
         const key = `remote-${score.id}`
         scoreMap.set(key, score)
       })
-      
       // Add local scores to the map, potentially overwriting remote scores
       // if they have higher WPM (like unsynced improvements)
-      localScores?.forEach(score => {
-        // For synced scores, check if we should replace the remote version
-        if (score.synced && score.id) {
-          const remoteKey = `remote-${score.id}`
-          const remoteScore = scoreMap.get(remoteKey)
-          
-          // Only replace if the local score is better
-          if (remoteScore && score.wpm > remoteScore.wpm) {
-            scoreMap.set(remoteKey, { ...score, remote: false })
-          }
-        } else {
-          // For unsynced scores, add them with a local key
-          const localKey = `local-${score.id}`
-          scoreMap.set(localKey, { ...score, remote: false })
+      // For synced scores, check if we should replace the remote version
+      if (localScore?.synced && localScore?.id) {
+        const remoteKey = `remote-${localScore?.id}`
+        const remoteScore = scoreMap.get(remoteKey)
+        // Only replace if the local score is better
+        if (remoteScore && localScore.wpm > remoteScore.wpm) {
+          scoreMap.set(remoteKey, { ...localScore, remote: false })
         }
-      })
-      
+      } else if (localScore?.id && !localScore?.synced) {
+        // For unsynced scores, add them with a local key
+        const localKey = `local-${localScore.id}`
+        scoreMap.set(localKey, { ...localScore, remote: false })
+      }
       // Convert map to array, sort by WPM, and take top scores
       const combinedScores = Array.from(scoreMap.values())
         .sort((a, b) => b.wpm - a.wpm)
         .slice(0, limit)
       return combinedScores
     } catch (err: any) {
-      error.value = err.message || 'Failed to load high scores'
+      console.error(err)
       return []
     } finally {
       loading.value = false
