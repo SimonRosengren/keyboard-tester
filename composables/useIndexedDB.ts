@@ -281,8 +281,18 @@ export function useIndexedDB() {
   }
 
   const getAnonymousId = () => {
-    const id = useId();
-    return id;
+    if (!process.client) return '';
+    
+    // Check if we already have an anonymous ID in localStorage
+    let anonymousId = localStorage.getItem('anonymousId');
+    
+    // If not, create a new one and store it
+    if (!anonymousId) {
+      anonymousId = crypto.randomUUID();
+      localStorage.setItem('anonymousId', anonymousId);
+    }
+    
+    return anonymousId;
   }
 
   return {
