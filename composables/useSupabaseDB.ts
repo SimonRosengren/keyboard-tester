@@ -6,6 +6,9 @@ export function useSupabaseDB() {
 
   // Save a score to Supabase
   const saveScore = async (score: Omit<TypingScore, 'id' | 'synced'>) => {
+    const { getAnonymousId } = useIndexedDB()
+    const anonymousId = getAnonymousId()
+    
     try {
       const { data, error } = await client
         .from('scores')
@@ -15,7 +18,8 @@ export function useSupabaseDB() {
           date: score.date,
           word_count: score.wordCount,
           duration: score.duration,
-          user_id: user.value?.id || null
+          user_id: user.value?.id || null,
+          anonymous_id: anonymousId
         })
         .select()
         .single()
@@ -43,12 +47,14 @@ export function useSupabaseDB() {
       return data.map(score => ({
         id: score.id,
         userId: score.user_id,
+        anonymousId: score.anonymous_id,
         wpm: score.wpm,
         accuracy: score.accuracy,
         date: new Date(score.date),
         wordCount: score.word_count,
         duration: score.duration,
-        synced: true
+        synced: true,
+        remote: true
       })) as TypingScore[]
     } catch (error: any) {
       console.error('Error getting user scores from Supabase:', error.message)
@@ -66,7 +72,20 @@ export function useSupabaseDB() {
         .limit(limit)
 
       if (error) throw error
-      return data
+      
+      // Convert from snake_case to camelCase for frontend use
+      return data.map(score => ({
+        id: score.id,
+        userId: score.user_id,
+        anonymousId: score.anonymous_id,
+        wpm: score.wpm,
+        accuracy: score.accuracy,
+        date: new Date(score.date),
+        wordCount: score.word_count,
+        duration: score.duration,
+        synced: true,
+        remote: true
+      })) as TypingScore[]
     } catch (error: any) {
       console.error('Error getting leaderboard from Supabase:', error.message)
       return []
@@ -74,14 +93,17 @@ export function useSupabaseDB() {
   }
 
   // Claim anonymous scores by updating their user_id
-  const claimAnonymousScores = async (scoreIds: number[]) => {
-    if (!user.value?.id || scoreIds.length === 0) return
+  const claimAnonymousScores = async () => {
+    if (!user.value?.id) return false
+    
+    const { getAnonymousId } = useIndexedDB()
+    const anonymousId = getAnonymousId()
 
     try {
       const { error } = await client
         .from('scores')
         .update({ user_id: user.value.id })
-        .in('id', scoreIds)
+        .eq('anonymous_id', anonymousId)
         .is('user_id', null)
 
       if (error) throw error
