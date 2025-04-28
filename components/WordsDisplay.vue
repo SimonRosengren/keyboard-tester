@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-wrap gap-2 mb-6 relative">
+  <div class="flex flex-wrap gap-2 mb-6 relative font-mono">
     <span 
       v-for="(word, index) in words" 
       :key="index"
@@ -22,7 +22,7 @@
           <!-- Cursor -->
           <span 
             v-if="charIndex === currentInput.length" 
-            class="absolute top-0 left-0 w-[2px] h-full bg-black animate-pulse"
+            class="absolute left-0 bottom-0 top-0 my-auto w-[3px] h-5 bg-kq-white/60 animate-pulse"
             style="transform: translateX(-1px);"
           ></span>
         </span>

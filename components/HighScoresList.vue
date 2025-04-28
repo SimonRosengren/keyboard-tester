@@ -40,7 +40,7 @@
             <td class="py-2 px-4 font-bold">{{ score.wpm }}</td>
             <td class="py-2 px-4">{{ Math.round(score.accuracy) }}%</td>
             <td class="py-2 px-4">{{ score.wordCount }}</td>
-            <td class="py-2 px-4">{{ formatDate(score.date) }}</td>
+            <td class="py-2 px-4">{{ formatDate(new Date(score.date)) }}</td>
             <td class="py-2 px-4">
               <span v-if="!score.synced" class="text-yellow-500 text-sm">
                 Syncing...

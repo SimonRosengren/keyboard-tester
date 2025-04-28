@@ -280,12 +280,18 @@ export function useIndexedDB() {
     });
   }
 
+  const getAnonymousId = () => {
+    const id = useId();
+    return id;
+  }
+
   return {
     isReady,
     error,
     saveScore,
     getScores,
     getHighestScore,
+    getAnonymousId,
     getUnsyncedScores,
     markAsSynced,
     updateUserIdForScores

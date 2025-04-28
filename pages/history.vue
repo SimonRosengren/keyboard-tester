@@ -1,6 +1,8 @@
 <template>
   <div class="min-h-screen bg-kq-white dark:bg-kq-black-300 text-kq-black dark:text-kq-white p-8">
     <div class="max-w-4xl mx-auto">
+      <HighScoresList />
+
       <h1 class="text-3xl font-bold mb-6">Typing History</h1>
       
       <div v-if="loading" class="text-center py-8">
