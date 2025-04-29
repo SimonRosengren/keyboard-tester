@@ -12,7 +12,7 @@
     
     <!-- Words Container -->
     <div
-      class="max-w-2xl w-full p-6 mb-6 relative"
+      class="w-full mb-6 relative"
     >
       <WordsDisplay 
         :words="state.words" 
@@ -46,7 +46,7 @@
     </div>
     
     <!-- Instructions -->
-    <div class="text-sm text-gray-600 max-w-2xl">
+    <div class="text-sm text-gray-600">
       <p>Type the words above. Press space to move to the next word. Your WPM (words per minute) will be calculated as you type.</p>
     </div>
   </div>

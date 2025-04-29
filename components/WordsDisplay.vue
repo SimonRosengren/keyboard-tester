@@ -5,7 +5,7 @@
       :key="index"
       :class="{
         'text-gray-400': index > currentWordIndex,
-        'text-black': index < currentWordIndex,
+        'text-kq-white': index < currentWordIndex,
         'font-medium': index === currentWordIndex
       }"
       class="relative text-2xl"
@@ -14,9 +14,9 @@
         <span v-for="(char, charIndex) in word.split('')" :key="`${index}-${charIndex}`" class="relative">
           <!-- Character with color based on correctness -->
           <span :class="{
-            'text-black': charIndex < currentInput.length && char === currentInput[charIndex],
-            'text-red-700': charIndex < currentInput.length && char !== currentInput[charIndex],
-            'text-gray-600': charIndex >= currentInput.length
+            'text-kq-white': charIndex < currentInput.length && char === currentInput[charIndex],
+            'text-kq-red': charIndex < currentInput.length && char !== currentInput[charIndex],
+            'text-kq-white/80': charIndex >= currentInput.length
           }">{{ char }}</span>
           
           <!-- Cursor -->

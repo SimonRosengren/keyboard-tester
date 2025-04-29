@@ -1,6 +1,6 @@
 <template>
-  <nav class="bg-kq-black-200 text-kq-white p-4">
-    <div class="max-w-6xl mx-auto flex justify-between items-center">
+  <nav class="bg-kq-black-300 text-kq-white py-6">
+    <div class="flex justify-between items-center">
       <div class="font-bold text-xl"><IconsLogo class="h-8 w-auto" /></div>
       <div class="flex gap-4 items-center">
         <NuxtLink to="/" class="hover:text-kq-yellow">Test</NuxtLink>
@@ -16,7 +16,8 @@
               <span class="text-sm">{{ userStore.email }}</span>
               <button 
                 @click="handleLogout" 
-                class="px-3 py-1 text-sm font-medium text-kq-black-200 bg-kq-yellow rounded-md hover:bg-opacity-90"
+                class="px-3 py-1 text-sm font-medium text-kq-black-200
+                border border-kq-yellow rounded-md"
               >
                 Logout
               </button>
@@ -25,7 +26,8 @@
           <template v-else>
             <NuxtLink 
               to="/login" 
-              class="px-3 py-1 text-sm font-medium text-kq-black-200 bg-kq-yellow rounded-md hover:bg-opacity-90"
+              class="px-3 py-1 text-sm font-medium text-kq-black-200
+                bg-kq-yellow hover:bg-kq-yellow/95 active:bg-kq-yellow/90 transition-all 2s rounded-md"
             >
               Login
             </NuxtLink>
