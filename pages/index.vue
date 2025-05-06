@@ -1,14 +1,6 @@
 <template>
   <div class="min-h-screen bg-kq-white dark:bg-kq-black-300 text-kq-black-300 dark:text-kq-white flex flex-col items-center justify-center">
-    <!-- WPM Counter and High Score -->
-    <div class="mb-6 text-xl flex gap-6">
-      <div>
-        <span class="font-semibold">WPM:</span> {{ state.wpm }}
-      </div>
-      <div v-if="highScore">
-        <span class="font-semibold">High Score:</span> {{ highScore }}
-      </div>
-    </div>
+
     
     <!-- Words Container -->
     <div
@@ -19,6 +11,25 @@
         :currentWordIndex="state.currentWordIndex"
         :currentInput="state.currentInput"
       />
+      <!-- WPM Counter and High Score -->
+      <div class="text-md grid grid-cols-4 w-fit gap-6">
+        <div>
+          <span class="font-semibold">WPM:</span> {{ state.wpm }}
+        </div>
+        <div>
+          <span class="font-semibold">ACC:</span> {{ Math.floor(calculateAccuracy) }}%
+        </div>
+        <div>
+          <span class="font-semibold">COM:</span> {{ Math.floor((state.currentWordIndex / state.words.length) * 100) }}%
+        </div>
+        <div>
+          <span class="font-semibold">TIM:</span> {{ state.elapsedTime }}
+        </div>
+
+        <!-- <div v-if="highScore"> -->
+        <!--   <span class="font-semibold">High Score:</span> {{ highScore }} -->
+        <!-- </div> -->
+      </div>
       
       <TypingInput 
         ref="inputRef"
@@ -57,7 +68,7 @@ import { ref, onMounted, nextTick, watch } from 'vue';
 import WordsDisplay from '~/components/WordsDisplay.vue';
 import TypingInput from '~/components/TypingInput.vue';
 
-const { state, highScore, handleInput, handleKeyDown, resetTest } = useTypingTest();
+const { state, highScore, handleInput, handleKeyDown, calculateAccuracy, resetTest } = useTypingTest();
 const inputRef = ref(null);
 const isFocused = ref(true);
 
@@ -71,4 +82,5 @@ const focusInput = () => {
     inputRef.value.inputRef.value.focus();
   }
 };
+
 </script>

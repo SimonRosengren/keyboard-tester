@@ -19,12 +19,14 @@ export function useTypingTest() {
   const { saveScore } = useIndexedDB();
   const { syncNewScore } = useSyncScores();
   const user = useSupabaseUser();
+  let interval = 0;
 
   const state = reactive<TypingState>({
     words: getRandomWords(),
     currentWordIndex: 0,
     currentInput: '',
     startTime: null,
+    elapsedTime: 0,
     wpm: 0,
     completed: false,
     correctChars: 0,
@@ -65,10 +67,10 @@ export function useTypingTest() {
   };
 
   // Calculate accuracy
-  const calculateAccuracy = () => {
+  const calculateAccuracy = computed(() => {
     const totalChars = state.correctChars + state.incorrectChars;
     return totalChars > 0 ? (state.correctChars / totalChars) * 100 : 0;
-  };
+  });
 
   // Handle input changes
   const handleInput = (event: Event) => {
@@ -78,6 +80,13 @@ export function useTypingTest() {
     // Start timer on first input
     if (!state.startTime && input.length > 0) {
       state.startTime = Date.now();
+
+      if (interval) {
+        clearInterval(interval);
+      }
+      interval = setInterval(() => {
+        state.elapsedTime++;
+      }, 1000)
     }
     
     // Track accuracy by comparing with current word
@@ -131,6 +140,9 @@ export function useTypingTest() {
       // Check if test is completed
       if (state.currentWordIndex >= state.words.length) {
         state.completed = true;
+        if (interval) {
+          clearInterval(interval);
+        }
         saveTestScore();
       }
       
@@ -182,10 +194,15 @@ export function useTypingTest() {
     state.currentInput = '';
     state.startTime = null;
     state.wpm = 0;
+    state.elapsedTime = 0;
     state.completed = false;
     state.correctChars = 0;
     state.incorrectChars = 0;
     correctWords.value = 0;
+
+    if (interval) {
+      clearInterval(interval);
+    }
   };
 
   return {
@@ -194,6 +211,7 @@ export function useTypingTest() {
     handleInput,
     handleKeyDown,
     resetTest,
+    calculateAccuracy,
     saveTestScore
   };
 }

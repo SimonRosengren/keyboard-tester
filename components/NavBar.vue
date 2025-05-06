@@ -1,10 +1,12 @@
 <template>
   <nav class="bg-kq-black-300 text-kq-white py-6">
-    <div class="flex justify-between items-center">
-      <div class="font-bold text-xl"><IconsLogo class="h-8 w-auto" /></div>
+    <div class="flex justify-between items-center cursor-pointer">
+      <div class="font-bold text-xl" @click="async () => await navigateTo('/')">
+        <IconsLogo class="h-8 w-auto" />
+      </div>
       <div class="flex gap-4 items-center">
         <NuxtLink to="/" class="hover:text-kq-yellow">Test</NuxtLink>
-        <NuxtLink to="/history" class="hover:text-kq-yellow">History</NuxtLink>
+        <NuxtLink to="/highscore" class="hover:text-kq-yellow">Highscore</NuxtLink>
         
         <!-- Sync status -->
         <SyncStatus v-if="userStore.isLoggedIn" />

@@ -6,6 +6,7 @@ export interface TypingState {
   wpm: number;
   completed: boolean;
   correctChars: number;
+  elapsedTime: number;
   incorrectChars: number;
 }
 
