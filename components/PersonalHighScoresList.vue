@@ -1,6 +1,9 @@
 <template>
   <div class="w-full mt-8">
-    <h2 class="text-xl font-bold mb-4">Your Top 5 Scores</h2>
+    <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+      <Icon name="solar:user-circle-linear" class="text-kq-white !h-6 !w-6" />
+      Personal
+    </h2>
     
     <div v-if="loading" class="flex justify-center my-8">
       <div class="animate-spin h-8 w-8 border-4 border-kq-blue rounded-full border-t-transparent"></div>

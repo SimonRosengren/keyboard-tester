@@ -5,10 +5,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
-  modules: [
-    '@nuxtjs/supabase',
-    '@pinia/nuxt'
-  ],
+  modules: ['@nuxtjs/supabase', '@pinia/nuxt', '@nuxt/icon'],
   supabase: {
     // You'll get these values from your Supabase dashboard
     url: process.env.SUPABASE_URL,

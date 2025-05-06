@@ -67,10 +67,7 @@ export function useHighScores() {
       
       // Get scores from both sources
       const localScores = await getScores();
-      let remoteScores = []; 
-      if (user.value?.id) {
-        remoteScores = await getUserScores();
-      }
+      let remoteScores = await getUserScores();
 
       // Create a map to track scores by ID to avoid duplicates
       const scoreMap = new Map<string, TypingScore>()
