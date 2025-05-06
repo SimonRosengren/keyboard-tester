@@ -86,13 +86,13 @@ export function useHighScores() {
         const key = `remote-${score.id}`
         scoreMap.set(key, { ...score, remote: true })
       })
-      console.log(remoteScores)
+      console.log(Array.from(scoreMap.values()))
       // Convert map to array, filter for current user, sort by WPM, and take top scores
       const personalScores = Array.from(scoreMap.values())
         .filter(score => {
           // Filter to only include scores from this user
           return (user.value && score.userId === user.value.id) || 
-                 score.anonymousId === anonymousId
+                 score.anonymousId === anonymousId || !score.synced
         })
         .sort((a, b) => b.wpm - a.wpm)
         .slice(0, limit)
