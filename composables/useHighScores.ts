@@ -53,8 +53,61 @@ export function useHighScores() {
     }
   }
   
+  // Get personal high scores from both local IndexedDB and remote Supabase
+  const getPersonalHighScores = async (limit = 5) => {
+    loading.value = true
+    error.value = null
+    
+    try {
+      const { getUserScores } = useSupabaseDB()
+      const { getScores } = useIndexedDB()
+      const user = useSupabaseUser()
+      const { getAnonymousId } = useIndexedDB()
+      const anonymousId = getAnonymousId()
+      
+      // Get scores from both sources
+      const [localScores, remoteScores] = await Promise.all([
+        getScores(),
+        user.value ? getUserScores() : Promise.resolve([])
+      ])
+      
+      // Create a map to track scores by ID to avoid duplicates
+      const scoreMap = new Map<string, TypingScore>()
+      
+      // Add local scores to the map
+      localScores.forEach(score => {
+        const key = `local-${score.id}`
+        scoreMap.set(key, { ...score, remote: false })
+      })
+      
+      // Add remote scores to the map, avoiding duplicates
+      remoteScores.forEach(score => {
+        const key = `remote-${score.id}`
+        scoreMap.set(key, { ...score, remote: true })
+      })
+      
+      // Convert map to array, filter for current user, sort by WPM, and take top scores
+      const personalScores = Array.from(scoreMap.values())
+        .filter(score => {
+          // Filter to only include scores from this user
+          return (user.value && score.userId === user.value.id) || 
+                 score.anonymousId === anonymousId
+        })
+        .sort((a, b) => b.wpm - a.wpm)
+        .slice(0, limit)
+        
+      return personalScores
+    } catch (err: any) {
+      console.error(err)
+      return []
+    } finally {
+      loading.value = false
+    }
+  }
+  
   return {
     getCombinedHighScores,
+    getPersonalHighScores,
     loading,
     error
   }
