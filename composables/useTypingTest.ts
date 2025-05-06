@@ -156,12 +156,11 @@ export function useTypingTest() {
     
     const endTime = Date.now();
     const duration = (endTime - state.startTime) / 1000; // in seconds
-    const accuracy = calculateAccuracy();
     
     try {
       const score = {
         wpm: state.wpm,
-        accuracy,
+        accuracy: calculateAccuracy.value,
         date: new Date(),
         wordCount: state.words.length,
         duration,

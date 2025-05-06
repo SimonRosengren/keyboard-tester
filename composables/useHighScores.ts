@@ -66,11 +66,12 @@ export function useHighScores() {
       const anonymousId = getAnonymousId()
       
       // Get scores from both sources
-      const [localScores, remoteScores] = await Promise.all([
-        getScores(),
-        user.value ? getUserScores() : Promise.resolve([])
-      ])
-      
+      const localScores = await getScores();
+      let remoteScores = []; 
+      if (user.value?.id) {
+        remoteScores = await getUserScores();
+      }
+
       // Create a map to track scores by ID to avoid duplicates
       const scoreMap = new Map<string, TypingScore>()
       
@@ -85,7 +86,7 @@ export function useHighScores() {
         const key = `remote-${score.id}`
         scoreMap.set(key, { ...score, remote: true })
       })
-      
+      console.log(remoteScores)
       // Convert map to array, filter for current user, sort by WPM, and take top scores
       const personalScores = Array.from(scoreMap.values())
         .filter(score => {
@@ -95,7 +96,6 @@ export function useHighScores() {
         })
         .sort((a, b) => b.wpm - a.wpm)
         .slice(0, limit)
-        
       return personalScores
     } catch (err: any) {
       console.error(err)

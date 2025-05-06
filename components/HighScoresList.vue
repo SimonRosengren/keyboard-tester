@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full max-w-2xl mx-auto">
+  <div class="w-full">
     <h2 class="text-xl font-bold mb-4">High Scores</h2>
     
     <div v-if="loading" class="flex justify-center my-8">
