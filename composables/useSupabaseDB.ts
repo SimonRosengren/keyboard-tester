@@ -35,12 +35,27 @@ export function useSupabaseDB() {
   // Get all scores for the current user
   const getUserScores = async () => {
     try {
-      const { data, error } = await client
+      const { getAnonymousId } = useIndexedDB()
+      const anonymousId = getAnonymousId()
+      
+      let query = client
         .from('scores')
         .select('*')
-        .eq('user_id', user.value?.id)
         .order('date', { ascending: false })
-
+      
+      // If user is logged in, get their scores by user_id
+      // Otherwise get scores by anonymous_id
+      if (user.value?.id) {
+        query = query.eq('user_id', user.value.id)
+      } else if (anonymousId) {
+        query = query.eq('anonymous_id', anonymousId)
+      } else {
+        // No user ID and no anonymous ID, return empty array
+        return []
+      }
+      
+      const { data, error } = await query
+      
       if (error) throw error
       
       // Convert from snake_case to camelCase for frontend use
