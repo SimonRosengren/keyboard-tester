@@ -103,7 +103,7 @@ export function useHighScores() {
   }
   
   // Get the personal best score (highest WPM)
-  const getPersonalBestScore = async (): Promise<TypingScore | null> => {
+  const getPersonalHighscore = async (): Promise<TypingScore | null> => {
     loading.value = true
     error.value = null
     
@@ -122,7 +122,7 @@ export function useHighScores() {
   return {
     getCombinedHighScores,
     getPersonalHighScores,
-    getPersonalBestScore,
+    getPersonalHighscore,
     loading,
     error
   }

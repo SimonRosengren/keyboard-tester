@@ -12,24 +12,29 @@
         :currentInput="state.currentInput"
         :incorrectPositions="state.incorrectPositions"
       />
+      <div class="flex justify-between w-full">
       <!-- WPM Counter and High Score -->
-      <div class="text-md grid grid-cols-4 w-fit gap-6">
-        <div>
-          <span class="font-semibold">WPM:</span> {{ state.wpm }}
-        </div>
-        <div>
-          <span class="font-semibold">ACC:</span> {{ Math.floor(calculateAccuracy) }}%
-        </div>
-        <div>
-          <span class="font-semibold">COM:</span> {{ Math.floor((state.currentWordIndex / state.words.length) * 100) }}%
-        </div>
-        <div>
-          <span class="font-semibold">TIM:</span> {{ state.elapsedTime }}
-        </div>
+        <div class="text-md grid grid-cols-4 w-fit gap-6">
+          <div>
+            <span class="font-semibold">WPM:</span> {{ state.wpm }}
+          </div>
+          <div>
+            <span class="font-semibold">ACC:</span> {{ Math.floor(calculateAccuracy) }}%
+          </div>
+          <div>
+            <span class="font-semibold">COM:</span> {{ Math.floor((state.currentWordIndex / state.words.length) * 100) }}%
+          </div>
+          <div>
+            <span class="font-semibold">TIM:</span> {{ state.elapsedTime }}
+          </div>
 
-        <!-- <div v-if="highScore"> -->
-        <!--   <span class="font-semibold">High Score:</span> {{ highScore }} -->
-        <!-- </div> -->
+          <!-- <div v-if="highScore"> -->
+          <!--   <span class="font-semibold">High Score:</span> {{ highScore }} -->
+          <!-- </div> -->
+        </div>
+        <div>
+            <span class="font-semibold">PB:</span> {{  }}
+        </div>
       </div>
       
       <TypingInput 
