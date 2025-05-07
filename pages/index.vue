@@ -52,19 +52,21 @@
       <!-- Focus Overlay -->
       <div 
         v-if="!state.completed && !isFocused" 
-        class="absolute inset-0 backdrop-blur-sm flex items-center justify-center"
+        class="
+          absolute h-[240%] w-[180%] -left-[40%] -top-[70%]
+          backdrop-blur-xl
+          flex flex-col items-center justify-center
+        "
         @click="focusInput"
       >
-        <div class="text-center bg-kq-pink p-6 border-2 rounded-lg border-kq-yellow shadow-md">
-          <p class="text-lg text-kq-black font-medium mb-2">Focus lost</p>
-          <p class="text-kq-black">Press <span class="font-bold">enter</span> to continue typing</p>
-        </div>
+          <p class="text-lg text-kq-black font-medium mb-3">Focus lost</p>
+          <p class="text-kq-black">Press <span class="mx-2 font-bold border rounded-sm py-0.5 px-2 bg-kq-white/10">Enter</span> to continue typing</p>
       </div>
     </div>
     
     <!-- Instructions -->
     <div class="text-sm text-gray-600">
-      <p>Type the words above. Press space to move to the next word. Your WPM (words per minute) will be calculated as you type.</p>
+      <p>Type the words above. Press space to move to the next word. Can you make it onto the <NuxtLink to="/highscore" class="hover:text-kq-white transition-colors">high score board</NuxtLink>?</p>
     </div>
   </div>
 </template>

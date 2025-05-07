@@ -4,9 +4,9 @@
       <div class="font-bold text-xl" @click="async () => await navigateTo('/')">
         <IconsLogo class="h-8 w-auto" />
       </div>
-      <div class="flex gap-4 items-center">
-        <NuxtLink to="/" class="hover:text-kq-yellow">Test</NuxtLink>
-        <NuxtLink to="/highscore" class="hover:text-kq-yellow">Highscore</NuxtLink>
+      <div class="flex gap-8 items-center">
+        <NuxtLink to="/" class="hover:text-kq-yellow transition-colors">Play</NuxtLink>
+        <NuxtLink to="/highscore" class="hover:text-kq-yellow transition-colors">Highscore</NuxtLink>
         
         <!-- Sync status -->
         <SyncStatus v-if="userStore.isLoggedIn" />
