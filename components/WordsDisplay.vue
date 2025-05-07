@@ -28,7 +28,12 @@
         </span>
       </template>
       <template v-else>
-        {{ word }}
+        <span v-for="(char, charIndex) in word.split('')" :key="`${index}-${charIndex}`" class="relative">
+          <span :class="{
+            'text-kq-red': incorrectPositions[index]?.[charIndex],
+            'text-inherit': !incorrectPositions[index]?.[charIndex]
+          }">{{ char }}</span>
+        </span>
       </template>
     </span>
   </div>
@@ -39,6 +44,7 @@ defineProps<{
   words: string[];
   currentWordIndex: number;
   currentInput: string;
+  incorrectPositions: Record<number, Record<number, boolean>>;
 }>();
 </script>
 

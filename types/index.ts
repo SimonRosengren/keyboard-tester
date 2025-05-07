@@ -8,6 +8,7 @@ export interface TypingState {
   correctChars: number;
   elapsedTime: number;
   incorrectChars: number;
+  incorrectPositions: Record<number, Record<number, boolean>>;
 }
 
 export interface User {

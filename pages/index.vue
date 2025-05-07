@@ -10,6 +10,7 @@
         :words="state.words" 
         :currentWordIndex="state.currentWordIndex"
         :currentInput="state.currentInput"
+        :incorrectPositions="state.incorrectPositions"
       />
       <!-- WPM Counter and High Score -->
       <div class="text-md grid grid-cols-4 w-fit gap-6">

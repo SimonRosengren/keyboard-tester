@@ -30,7 +30,8 @@ export function useTypingTest() {
     wpm: 0,
     completed: false,
     correctChars: 0,
-    incorrectChars: 0
+    incorrectChars: 0,
+    incorrectPositions: {}
   });
 
   const highScore = ref<number | null>(null);
@@ -100,10 +101,20 @@ export function useTypingTest() {
           state.correctChars++;
         } else {
           state.incorrectChars++;
+          // Store the incorrect position for the current word
+          if (!state.incorrectPositions[state.currentWordIndex]) {
+            state.incorrectPositions[state.currentWordIndex] = {};
+          }
+          state.incorrectPositions[state.currentWordIndex][newCharIndex] = true;
         }
       } else {
         // Extra character beyond word length
         state.incorrectChars++;
+        // Store the incorrect position for the current word
+        if (!state.incorrectPositions[state.currentWordIndex]) {
+          state.incorrectPositions[state.currentWordIndex] = {};
+        }
+        state.incorrectPositions[state.currentWordIndex][newCharIndex] = true;
       }
     }
     
@@ -197,6 +208,7 @@ export function useTypingTest() {
     state.completed = false;
     state.correctChars = 0;
     state.incorrectChars = 0;
+    state.incorrectPositions = {};
     correctWords.value = 0;
 
     if (interval) {
