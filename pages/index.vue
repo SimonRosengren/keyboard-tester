@@ -33,7 +33,7 @@
           <!-- </div> -->
         </div>
         <div>
-            <span class="font-semibold">PB:</span> {{  }}
+            <span class="font-semibold">PB:</span> {{ personalBest || '-' }}
         </div>
       </div>
       
@@ -77,6 +77,25 @@ import TypingInput from '~/components/TypingInput.vue';
 const { state, highScore, handleInput, handleKeyDown, calculateAccuracy, resetTest } = useTypingTest();
 const inputRef = ref(null);
 const isFocused = ref(true);
+const personalBest = ref<number | null>(null);
+
+// Get personal best score
+const { getPersonalBestScore } = useHighScores();
+
+// Load personal best score
+onMounted(async () => {
+  const bestScore = await getPersonalBestScore();
+  if (bestScore) {
+    personalBest.value = bestScore.wpm;
+  }
+});
+
+// Update personal best when highScore changes
+watch(highScore, (newHighScore) => {
+  if (newHighScore && (!personalBest.value || newHighScore > personalBest.value)) {
+    personalBest.value = newHighScore;
+  }
+});
 
 // Track focus state
 const handleFocusChange = (focused: boolean) => {
