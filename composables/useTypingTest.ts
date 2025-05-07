@@ -1,12 +1,14 @@
 import { ref, computed, reactive, onMounted } from 'vue';
 import type { TypingState, TypingScore } from '~/types';
 
-// List of common words for the typing test
+// List of words for the typing test with varied finger placement
 const wordList = [
-  'the', 'be', 'to', 'of', 'and', 'a', 'in', 'that', 'have', 'I',
-  'it', 'for', 'not', 'on', 'with', 'he', 'as', 'you', 'do', 'at',
-  'this', 'but', 'his', 'by', 'from', 'they', 'we', 'say', 'her', 'she',
-  'or', 'an', 'will', 'my', 'one', 'all', 'would', 'there', 'their', 'what'
+  'quick', 'jump', 'lazy', 'fox', 'brown', 'dog', 'over', 'type', 'keyboard', 'finger',
+  'rhythm', 'jazz', 'quiz', 'waltz', 'nymph', 'vex', 'fjord', 'glyphs', 'zephyr', 'sphinx',
+  'pixel', 'quartz', 'jinx', 'azure', 'oxygen', 'zombie', 'vortex', 'whiskey', 'jackpot', 'maximize',
+  'complex', 'subway', 'quip', 'wizard', 'jukebox', 'kayak', 'equip', 'matrix', 'puzzle', 'hybrid',
+  'syntax', 'python', 'javascript', 'react', 'vue', 'nuxt', 'code', 'program', 'function', 'variable',
+  'method', 'object', 'array', 'string', 'number', 'boolean', 'interface', 'component', 'module', 'export'
 ];
 
 export function useTypingTest() {
