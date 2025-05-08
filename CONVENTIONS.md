@@ -3,7 +3,7 @@
 
 - Always use english
 - Keep answers minimal and to the point. I'm an expert engineer with several years of experience.
-- Ask questions if you are uncertain of my intent.
+- Always ask at least 2 follow up questions before you start implementing to make things clearer.
 - Give simple suggestions if possible. Complexity has never helped anyone.
 - Use typescript where ever possible
 - Use tailwind for styling

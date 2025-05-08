@@ -15,7 +15,8 @@
         <div class="ml-6 flex items-center">
           <template v-if="userStore.isLoggedIn">
             <div class="flex items-center gap-4">
-              <span class="text-sm">{{ userStore.email }}</span>
+              <img v-if="userStore.user?.user_metadata?.avatar_url" :src="userStore.user.user_metadata?.avatar_url" class="rounded-full w-7 h-7" />
+              <Icon v-else name="solar:user-circle-bold" class="text-kq-yellow !w-7 !h-7" />
               <button 
                 @click="handleLogout" 
                 class="px-3 py-1 text-sm font-medium text-kq-black-200

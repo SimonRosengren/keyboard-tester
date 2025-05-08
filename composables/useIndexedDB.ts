@@ -10,7 +10,6 @@ export function useIndexedDB() {
   const initDB = () => {
     return new Promise<void>((resolve, reject) => {
       if (!process.client) {
-        reject('IndexedDB is only available in the browser');
         return;
       }
 
