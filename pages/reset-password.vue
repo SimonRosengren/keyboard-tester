@@ -72,4 +72,7 @@ async function handleResetPassword() {
     loading.value = false
   }
 }
+definePageMeta({
+  layout: 'empty'
+})
 </script>

@@ -98,4 +98,7 @@ async function handleUpdatePassword() {
     loading.value = false
   }
 }
+definePageMeta({
+  layout: 'empty'
+})
 </script>

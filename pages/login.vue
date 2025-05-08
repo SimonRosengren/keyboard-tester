@@ -1,8 +1,46 @@
 <template>
-  <div class="min-h-screen flex items-center p-4 text-kq-white">
-    <div class="max-w-md w-full bg-kq-black-200 rounded-lg shadow-md p-8">
-      <div class="mb-6 text-center">
-        <h1 class="text-2xl font-bold">Sign in to KeyQuake</h1>
+  <div class="min-h-screen w-full flex text-kq-white">
+    <div class="w-full bg-gradient-to-b from-kq-black-300 to-kq-blue/30 max-lg:hidden">
+      <div class="w-full h-full flex flex-col justify-center text-center items-center bg-gradient-to-br from-kq-pink/30 to-kq-black-300">
+        <div class="flex items-center justify-center py-8 bg-kq-black-300 w-full mb-12 shadow-xl">
+          <IconsLogo class="h-16 w-auto" />
+        </div>
+        <div class="flex flex-col items-center px-28">
+          <h1 class="text-5xl font-medium md:text-6xl mb-8">Making typing a competition</h1>
+          <h2 class="text-lg">Sign up or login to compete with others from around the world. See how fast at typing you really are.</h2>
+        </div>
+      </div>
+    </div>
+    <div class="w-full bg-kq-black-300 rounded-lg shadow-md pt-12 flex flex-col items-center justify-center">
+      <div class="mb-8 text-center">
+        <h1 class="text-2xl font-bold">{{ isSignUp ? 'Sign up to Keyquake' : 'Sign in to keyquake' }}</h1>
+      </div>
+
+      <div class="w-full max-w-sm mb-4">
+        <div class="mb-6">
+          <button 
+            @click="handleGoogleLogin"
+            class="w-full flex justify-center transition-colors cursor-pointer gap-3 items-center py-2 px-4 border border-kq-black-100 rounded-md shadow-sm bg-kq-black-200 text-sm font-medium text-kq-white hover:bg-kq-black-100"
+          >
+            <Icon name="logos:google-icon" class="-ml-3" />
+            Google
+          </button>
+          <!-- <button  -->
+          <!--   @click="handleGithubLogin" -->
+          <!--   class="w-full flex justify-center py-2 px-4 border border-kq-black-100 rounded-md shadow-sm bg-kq-black-200 text-sm font-medium text-kq-white hover:bg-kq-black-100" -->
+          <!-- > -->
+          <!--   GitHub -->
+          <!-- </button> -->
+        </div>
+        <div class="relative">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-kq-black-100"></div>
+          </div>
+          <div class="relative flex justify-center text-sm">
+            <span class="px-2 bg-kq-black-200 text-kq-white/70">Or continue with</span>
+          </div>
+        </div>
+        
       </div>
       
       <div v-if="error" class="mb-4 p-4 bg-kq-red/20 text-kq-red rounded">
@@ -10,14 +48,14 @@
       </div>
       
       <!-- Email/Password Login -->
-      <form @submit.prevent="handleEmailLogin" class="space-y-4">
+      <form @submit.prevent="handleEmailLogin" class="space-y-4 max-w-sm mx-auto w-full">
         <div>
           <label class="block text-sm font-medium">Email</label>
           <input 
             v-model="email" 
             type="email" 
             required
-            class="mt-1 block w-full px-3 py-2 border border-kq-black-100 rounded-md shadow-sm focus:outline-none focus:ring-kq-blue focus:border-kq-blue bg-kq-black-300 text-kq-white"
+            class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-kq-blue focus:border-kq-blue bg-kq-black-100/60 border border-kq-black-100/90 text-kq-white"
           />
         </div>
         
@@ -27,7 +65,7 @@
             v-model="password" 
             type="password" 
             required
-            class="mt-1 block w-full px-3 py-2 border border-kq-black-100 rounded-md shadow-sm focus:outline-none focus:ring-kq-blue focus:border-kq-blue bg-kq-black-300 text-kq-white"
+            class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-kq-blue focus:border-kq-blue bg-kq-black-100/60 border border-kq-black-100/90 text-kq-white"
           />
           <div class="mt-1 text-right">
             <NuxtLink to="/reset-password" class="text-xs text-kq-blue hover:text-kq-blue/80">
@@ -39,38 +77,14 @@
         <div>
           <button 
             type="submit"
-            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-kq-black-200 bg-kq-yellow hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-kq-yellow"
+            class="w-full cursor-pointer flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-kq-black-200 bg-kq-yellow hover:bg-kq-yellow/90 !font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-kq-yellow"
           >
             {{ isSignUp ? 'Sign up' : 'Sign in' }}
           </button>
         </div>
       </form>
       
-      <div class="mt-6">
-        <div class="relative">
-          <div class="absolute inset-0 flex items-center">
-            <div class="w-full border-t border-kq-black-100"></div>
-          </div>
-          <div class="relative flex justify-center text-sm">
-            <span class="px-2 bg-kq-black-200 text-kq-white/70">Or continue with</span>
-          </div>
-        </div>
-        
-        <div class="mt-6 grid grid-cols-2 gap-3">
-          <button 
-            @click="handleGoogleLogin"
-            class="w-full flex justify-center py-2 px-4 border border-kq-black-100 rounded-md shadow-sm bg-kq-black-200 text-sm font-medium text-kq-white hover:bg-kq-black-100"
-          >
-            Google
-          </button>
-          <button 
-            @click="handleGithubLogin"
-            class="w-full flex justify-center py-2 px-4 border border-kq-black-100 rounded-md shadow-sm bg-kq-black-200 text-sm font-medium text-kq-white hover:bg-kq-black-100"
-          >
-            GitHub
-          </button>
-        </div>
-      </div>
+
       
       <div class="mt-6 text-center">
         <p class="text-sm text-kq-white/70">
@@ -79,6 +93,12 @@
             {{ isSignUp ? 'Sign in instead' : 'Sign up' }}
           </button>
         </p>
+      </div>
+      <div class="mt-6 text-center">
+        <NuxtLink to="/" class="flex items-center text-kq-white/90 group">
+          <Icon name="solar:arrow-left-linear" class="w-7 h-7 mr-2 group-hover:-translate-x-1.5 transition-all" />
+          Back to typing
+        </NuxtLink>
       </div>
     </div>
   </div>
@@ -157,4 +177,8 @@ async function handleGithubLogin() {
     error.value = e.message || 'An error occurred during GitHub authentication'
   }
 }
+
+definePageMeta({
+  layout: 'empty'
+})
 </script>
