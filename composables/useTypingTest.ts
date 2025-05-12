@@ -139,6 +139,17 @@ export function useTypingTest() {
       // Only increment correct words count if the word was typed correctly
       if (isCorrect) {
         correctWords.value++;
+      } else {
+        // Mark all remaining untyped characters as errors
+        if (!state.incorrectPositions[state.currentWordIndex]) {
+          state.incorrectPositions[state.currentWordIndex] = {};
+        }
+        
+        // Count remaining characters as incorrect
+        for (let i = state.currentInput.length; i < currentWord.length; i++) {
+          state.incorrectPositions[state.currentWordIndex][i] = true;
+          state.incorrectChars++;
+        }
       }
       
       // Move to next word
