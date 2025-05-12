@@ -95,8 +95,13 @@ export function useTypingTest() {
     // Track accuracy by comparing with current word
     const currentWord = state.words[state.currentWordIndex];
     
+    // Check if backspace was used (input is shorter than previous)
+    if (input.length < prevInput.length) {
+      // User deleted characters, we'll recheck all characters when they type again
+      // No need to adjust correctChars/incorrectChars here as we'll revalidate
+    } 
     // If input is longer than previous input, check the new character
-    if (input.length > prevInput.length) {
+    else if (input.length > prevInput.length) {
       const newCharIndex = input.length - 1;
       if (newCharIndex < currentWord.length) {
         if (input[newCharIndex] === currentWord[newCharIndex]) {
@@ -117,6 +122,21 @@ export function useTypingTest() {
           state.incorrectPositions[state.currentWordIndex] = {};
         }
         state.incorrectPositions[state.currentWordIndex][newCharIndex] = true;
+      }
+    } 
+    // If same length but content changed, user likely corrected a character
+    else if (input !== prevInput) {
+      // Recheck all characters to update correctness
+      for (let i = 0; i < input.length; i++) {
+        // If this character was previously marked as incorrect but is now correct
+        if (state.incorrectPositions[state.currentWordIndex]?.[i] && 
+            input[i] === currentWord[i]) {
+          // Remove the error marking
+          delete state.incorrectPositions[state.currentWordIndex][i];
+          // Update character counts (subtract one incorrect, add one correct)
+          state.incorrectChars--;
+          state.correctChars++;
+        }
       }
     }
     
