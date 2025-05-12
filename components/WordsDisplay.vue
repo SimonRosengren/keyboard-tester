@@ -4,7 +4,7 @@
       v-for="(word, index) in words" 
       :key="index"
       :class="{
-        'text-gray-400': index > currentWordIndex,
+        'text-kq-white/70': index > currentWordIndex,
         'text-kq-white': index < currentWordIndex,
         'font-medium': index === currentWordIndex
       }"
@@ -16,7 +16,7 @@
           <span :class="{
             'text-kq-white': charIndex < currentInput.length && char === currentInput[charIndex],
             'text-kq-red': charIndex < currentInput.length && char !== currentInput[charIndex],
-            'text-kq-white/80': charIndex >= currentInput.length
+            'text-kq-white/70': charIndex >= currentInput.length
           }">{{ char }}</span>
           
           <!-- Cursor -->
