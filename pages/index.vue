@@ -1,11 +1,12 @@
 <template>
-  <div class="min-h-screen bg-kq-white dark:bg-kq-black-300 text-kq-black-300 dark:text-kq-white flex flex-col items-center justify-center">
+  <div class="min-h-screen bg-kq-white dark:bg-kq-black-300 text-kq-black-300 dark:text-kq-white flex flex-col pt-48 lg:pt-60">
 
     
     <!-- Words Container -->
     <div
-      class="w-full mb-6 relative"
+      class="w-full mb-12 relative"
     >
+      <ProgressBar :progress="progress" class="mb-12" />
       <WordsDisplay 
         :words="state.words" 
         :currentWordIndex="state.currentWordIndex"
@@ -22,12 +23,8 @@
             <span class="font-semibold">ACC:</span> {{ Math.floor(calculateAccuracy) }}%
           </div>
           <div>
-            <span class="font-semibold">COM:</span> {{ Math.floor((state.currentWordIndex / state.words.length) * 100) }}%
-          </div>
-          <div>
             <span class="font-semibold">TIM:</span> {{ state.elapsedTime }}
           </div>
-
           <!-- <div v-if="highScore"> -->
           <!--   <span class="font-semibold">High Score:</span> {{ highScore }} -->
           <!-- </div> -->
@@ -63,10 +60,14 @@
           <p class="text-kq-black">Press <span class="mx-2 font-bold border rounded-sm py-0.5 px-2 bg-kq-white/10">Enter</span> to continue typing</p>
       </div>
     </div>
-    
+
+    <div class="w-full bg-gradient-to-r from-kq-pink/10 via-kq-pink/50 to-kq-pink/10 h-px mb-2" />
+    <div class="w-full bg-gradient-to-r from-kq-yellow/10 via-kq-yellow/50 to-kq-yellow/10 h-px mb-2" />
+    <div class="w-full bg-gradient-to-r from-kq-blue/10 via-kq-blue/50 to-kq-blue/10 h-px mb-12" />
     <!-- Instructions -->
-    <div class="text-sm text-gray-600">
-      <p>Type the words above. Press space to move to the next word. Can you make it onto the <NuxtLink to="/highscore" class="hover:text-kq-white transition-colors">high score board</NuxtLink>?</p>
+    <div class="text-sm text-kq-white/60">
+      <p class="mb-6">Type the words above. Press <span class="mx-2 font-bold border rounded-sm py-0.5 px-2 bg-kq-white/10">Space</span> to move to the next word.</p>
+      <p>Restart by refreshing <span class="mx-2 font-bold border rounded-sm py-0.5 px-2 bg-kq-white/10">⌘ + r</span> or <span class="mx-2 font-bold border rounded-sm py-0.5 px-2 bg-kq-white/10">Ctrl + r</span></p>
     </div>
   </div>
 </template>
@@ -75,11 +76,14 @@
 import { ref, onMounted, nextTick, watch } from 'vue';
 import WordsDisplay from '~/components/WordsDisplay.vue';
 import TypingInput from '~/components/TypingInput.vue';
+import type ProgressBar from '~/components/ProgressBar.vue';
 
 const { state, highScore, handleInput, handleKeyDown, calculateAccuracy, resetTest } = useTypingTest();
 const inputRef = ref(null);
 const isFocused = ref(true);
 const personalBest = ref<number | null>(null);
+const progress = computed(() => Math.floor((state.currentWordIndex / state.words.length) * 100));
+
 
 // Get personal best score
 const { getPersonalBestScore } = useHighScores();

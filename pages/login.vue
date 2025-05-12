@@ -2,18 +2,22 @@
   <div class="min-h-screen w-full flex text-kq-white">
     <div class="w-full bg-gradient-to-b from-kq-black-300 to-kq-blue/30 max-lg:hidden">
       <div class="w-full h-full flex flex-col justify-center text-center items-center bg-gradient-to-br from-kq-pink/30 to-kq-black-300">
-        <div class="flex items-center justify-center py-8 bg-kq-black-300 w-full mb-12 shadow-xl">
-          <IconsLogo class="h-16 w-auto" />
+        <div class="w-full mb-12 shadow-2xl">
+          <div class="h-px w-full bg-gradient-to-r from-transparent via-kq-pink to-transparent" />
+          <div class="flex items-center justify-center py-8 bg-kq-black-300 w-full">
+            <IconsLogo class="h-20 w-auto" />
+          </div>
+          <div class="h-px w-full bg-gradient-to-r from-transparent via-kq-pink to-transparent" />
         </div>
         <div class="flex flex-col items-center px-28">
-          <h1 class="text-5xl font-medium md:text-6xl mb-8">Making typing a competition</h1>
+          <h1 class="text-5xl font-medium md:text-6xl mb-8 text-kq-yellow uppercase">Making typing a competition</h1>
           <h2 class="text-lg">Sign up or login to compete with others from around the world. See how fast at typing you really are.</h2>
         </div>
       </div>
     </div>
     <div class="w-full bg-kq-black-300 rounded-lg shadow-md pt-12 flex flex-col items-center justify-center">
       <div class="mb-8 text-center">
-        <h1 class="text-2xl font-bold">{{ isSignUp ? 'Sign up to Keyquake' : 'Sign in to keyquake' }}</h1>
+        <h1 class="text-3xl font-bold uppercase text-kq-yellow">{{ isSignUp ? 'Sign up to Keyquake' : 'Sign in to keyquake' }}</h1>
       </div>
 
       <div class="w-full max-w-sm mb-4">

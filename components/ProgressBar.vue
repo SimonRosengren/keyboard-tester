@@ -1,7 +1,7 @@
 <template>
-  <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
+  <div class="w-full bg-kq-white/60 dark:bg-kq-yellow/10 rounded-xs h-1.5 p-px overflow-hidden">
     <div 
-      class="bg-blue-600 dark:bg-blue-500 h-full transition-all duration-300 ease-out"
+      class="bg-kq-black-300 dark:bg-kq-yellow h-full transition-all duration-300 ease-out"
       :style="{ width: `${clampedProgress}%` }"
     ></div>
   </div>
