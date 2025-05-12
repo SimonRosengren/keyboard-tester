@@ -95,51 +95,51 @@ export function useTypingTest() {
     // Track accuracy by comparing with current word
     const currentWord = state.words[state.currentWordIndex];
     
-    // Check if backspace was used (input is shorter than previous)
-    if (input.length < prevInput.length) {
-      // User deleted characters, we'll recheck all characters when they type again
-      // No need to adjust correctChars/incorrectChars here as we'll revalidate
-    } 
-    // If input is longer than previous input, check the new character
-    else if (input.length > prevInput.length) {
-      const newCharIndex = input.length - 1;
-      if (newCharIndex < currentWord.length) {
-        if (input[newCharIndex] === currentWord[newCharIndex]) {
-          state.correctChars++;
+    // Initialize incorrectPositions for current word if needed
+    if (!state.incorrectPositions[state.currentWordIndex]) {
+      state.incorrectPositions[state.currentWordIndex] = {};
+    }
+    
+    // Complete recheck of all characters
+    // This ensures we properly track corrections
+    
+    // First, reset character counts for the current word
+    // We'll recalculate them based on the current input
+    let tempCorrectChars = 0;
+    let tempIncorrectChars = 0;
+    
+    // Count correct/incorrect characters from previous words
+    for (let i = 0; i < state.currentWordIndex; i++) {
+      const word = state.words[i];
+      const wordIncorrectPositions = state.incorrectPositions[i] || {};
+      const incorrectCount = Object.keys(wordIncorrectPositions).length;
+      
+      tempCorrectChars += word.length - incorrectCount;
+      tempIncorrectChars += incorrectCount;
+    }
+    
+    // Clear current word's incorrect positions
+    state.incorrectPositions[state.currentWordIndex] = {};
+    
+    // Check each character in the current input
+    for (let i = 0; i < input.length; i++) {
+      if (i < currentWord.length) {
+        if (input[i] === currentWord[i]) {
+          tempCorrectChars++;
         } else {
-          state.incorrectChars++;
-          // Store the incorrect position for the current word
-          if (!state.incorrectPositions[state.currentWordIndex]) {
-            state.incorrectPositions[state.currentWordIndex] = {};
-          }
-          state.incorrectPositions[state.currentWordIndex][newCharIndex] = true;
+          tempIncorrectChars++;
+          state.incorrectPositions[state.currentWordIndex][i] = true;
         }
       } else {
         // Extra character beyond word length
-        state.incorrectChars++;
-        // Store the incorrect position for the current word
-        if (!state.incorrectPositions[state.currentWordIndex]) {
-          state.incorrectPositions[state.currentWordIndex] = {};
-        }
-        state.incorrectPositions[state.currentWordIndex][newCharIndex] = true;
-      }
-    } 
-    // If same length but content changed, user likely corrected a character
-    else if (input !== prevInput) {
-      // Recheck all characters to update correctness
-      for (let i = 0; i < input.length; i++) {
-        // If this character was previously marked as incorrect but is now correct
-        if (state.incorrectPositions[state.currentWordIndex]?.[i] && 
-            input[i] === currentWord[i]) {
-          // Remove the error marking
-          delete state.incorrectPositions[state.currentWordIndex][i];
-          // Update character counts (subtract one incorrect, add one correct)
-          state.incorrectChars--;
-          state.correctChars++;
-        }
+        tempIncorrectChars++;
+        state.incorrectPositions[state.currentWordIndex][i] = true;
       }
     }
     
+    // Update the state with new counts
+    state.correctChars = tempCorrectChars;
+    state.incorrectChars = tempIncorrectChars;
     state.currentInput = input;
   };
 
