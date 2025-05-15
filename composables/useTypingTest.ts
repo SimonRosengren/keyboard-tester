@@ -192,6 +192,11 @@ export function useTypingTest() {
         // Automatically reset after saving score
         setTimeout(() => {
           resetTest();
+          // Add a small delay to ensure DOM is updated before focusing
+          setTimeout(() => {
+            // Dispatch a custom event that TypingInput can listen for
+            document.dispatchEvent(new CustomEvent('typing-test-reset'));
+          }, 100);
         }, 2000); // Reset after 2 seconds
       }
       

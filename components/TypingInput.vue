@@ -17,7 +17,16 @@
     />
     
     <!-- Hidden input even when completed -->
-    <div v-else class="absolute opacity-0 h-0"></div>
+    <input
+      v-else
+      ref="inputRef"
+      type="text"
+      class="absolute opacity-0 h-0"
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"
+      spellcheck="false"
+    />
   </div>
 </template>
 
@@ -56,6 +65,11 @@ onMounted(() => {
           e.preventDefault();
         }
       }
+    });
+
+    // Listen for the custom reset event
+    document.addEventListener('typing-test-reset', () => {
+      focusInput();
     });
 
     inputRef.value.addEventListener('focus', () => {
