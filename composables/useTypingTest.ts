@@ -199,7 +199,7 @@ export function useTypingTest() {
             // Dispatch another event to update focus state in the parent component
             document.dispatchEvent(new CustomEvent('typing-test-focused'));
           }, 100);
-        }, 2000); // Reset after 2 seconds
+        }, 300); // Reset after 2 seconds
       }
       
       event.preventDefault();
