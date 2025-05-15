@@ -188,6 +188,11 @@ export function useTypingTest() {
           clearInterval(interval);
         }
         saveTestScore();
+        
+        // Automatically reset after saving score
+        setTimeout(() => {
+          resetTest();
+        }, 2000); // Reset after 2 seconds
       }
       
       event.preventDefault();
