@@ -29,7 +29,7 @@
           <!--   <span class="font-semibold">High Score:</span> {{ highScore }} -->
           <!-- </div> -->
         </div>
-        <div>
+        <div :class="{ 'pb-highlight': pbHighlighted }">
             <span class="font-semibold">PB:</span> {{ personalBest || '-' }}
         </div>
       </div>
@@ -83,6 +83,8 @@ const inputRef = ref(null);
 const isFocused = ref(true);
 const blurTimeout = ref<number | null>(null);
 const personalBest = ref<number | null>(null);
+const pbHighlighted = ref(false);
+const pbAnimationTimeout = ref<number | null>(null);
 const progress = computed(() => Math.floor((state.currentWordIndex / state.words.length) * 100));
 
 
@@ -113,6 +115,17 @@ onMounted(async () => {
 watch(highScore, (newHighScore) => {
   if (newHighScore && (!personalBest.value || newHighScore > personalBest.value)) {
     personalBest.value = newHighScore;
+    
+    // Trigger the highlight animation
+    if (pbAnimationTimeout.value !== null) {
+      clearTimeout(pbAnimationTimeout.value);
+    }
+    
+    pbHighlighted.value = true;
+    pbAnimationTimeout.value = window.setTimeout(() => {
+      pbHighlighted.value = false;
+      pbAnimationTimeout.value = null;
+    }, 800);
   }
 });
 
@@ -140,11 +153,35 @@ const focusInput = () => {
   }
 };
 
-// Clear any pending blur timeout when component is unmounted
+// Clear any pending timeouts when component is unmounted
 onBeforeUnmount(() => {
   if (blurTimeout.value !== null) {
     clearTimeout(blurTimeout.value);
   }
+  
+  if (pbAnimationTimeout.value !== null) {
+    clearTimeout(pbAnimationTimeout.value);
+  }
 });
 
 </script>
+
+<style scoped>
+.pb-highlight {
+  transition: color 400ms ease-in-out;
+  color: rgb(74 222 128); /* Tailwind's green-400 */
+  animation: highlight-pb 800ms ease-in-out;
+}
+
+@keyframes highlight-pb {
+  0% {
+    color: inherit;
+  }
+  50% {
+    color: rgb(74 222 128); /* Tailwind's green-400 */
+  }
+  100% {
+    color: inherit;
+  }
+}
+</style>
