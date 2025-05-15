@@ -145,9 +145,16 @@ export function useTypingTest() {
 
   // Handle key presses
   const handleKeyDown = (event: KeyboardEvent) => {
-    // Start timer on first input if not already started
-    if (!state.startTime && state.currentInput.length > 0) {
+    // Start timer on first input or when space is pressed to start the test
+    if (!state.startTime && (state.currentInput.length > 0 || event.key === ' ')) {
       state.startTime = Date.now();
+      
+      if (interval) {
+        clearInterval(interval);
+      }
+      interval = setInterval(() => {
+        state.elapsedTime++;
+      }, 1000);
     }
 
     // If space is pressed, move to the next word
