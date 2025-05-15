@@ -73,7 +73,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick, watch } from 'vue';
+import { ref, onMounted, nextTick, watch, onBeforeUnmount } from 'vue';
 import WordsDisplay from '~/components/WordsDisplay.vue';
 import TypingInput from '~/components/TypingInput.vue';
 import type ProgressBar from '~/components/ProgressBar.vue';
@@ -81,6 +81,7 @@ import type ProgressBar from '~/components/ProgressBar.vue';
 const { state, highScore, handleInput, handleKeyDown, calculateAccuracy, resetTest } = useTypingTest();
 const inputRef = ref(null);
 const isFocused = ref(true);
+const blurTimeout = ref<number | null>(null);
 const personalBest = ref<number | null>(null);
 const progress = computed(() => Math.floor((state.currentWordIndex / state.words.length) * 100));
 
@@ -110,9 +111,22 @@ watch(highScore, (newHighScore) => {
   }
 });
 
-// Track focus state
+// Track focus state with debounce for blur
 const handleFocusChange = (focused: boolean) => {
-  isFocused.value = focused;
+  if (focused) {
+    // If focus is gained, clear any pending blur timeout
+    if (blurTimeout.value !== null) {
+      clearTimeout(blurTimeout.value);
+      blurTimeout.value = null;
+    }
+    isFocused.value = true;
+  } else {
+    // If focus is lost, set a timeout before showing the blur overlay
+    blurTimeout.value = window.setTimeout(() => {
+      isFocused.value = false;
+      blurTimeout.value = null;
+    }, 400);
+  }
 };
 
 const focusInput = () => {
@@ -120,5 +134,12 @@ const focusInput = () => {
     inputRef.value.inputRef.value.focus();
   }
 };
+
+// Clear any pending blur timeout when component is unmounted
+onBeforeUnmount(() => {
+  if (blurTimeout.value !== null) {
+    clearTimeout(blurTimeout.value);
+  }
+});
 
 </script>
