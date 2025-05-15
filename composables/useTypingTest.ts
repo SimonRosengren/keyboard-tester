@@ -196,6 +196,8 @@ export function useTypingTest() {
           setTimeout(() => {
             // Dispatch a custom event that TypingInput can listen for
             document.dispatchEvent(new CustomEvent('typing-test-reset'));
+            // Dispatch another event to update focus state in the parent component
+            document.dispatchEvent(new CustomEvent('typing-test-focused'));
           }, 100);
         }, 2000); // Reset after 2 seconds
       }

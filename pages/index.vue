@@ -94,6 +94,13 @@ onMounted(async () => {
   if (bestScore) {
     personalBest.value = bestScore.wpm;
   }
+  
+  // Listen for the focus event from the typing test reset
+  if (process.client) {
+    document.addEventListener('typing-test-focused', () => {
+      isFocused.value = true;
+    });
+  }
 });
 
 // Update personal best when highScore changes
