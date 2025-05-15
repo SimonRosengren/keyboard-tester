@@ -26,7 +26,6 @@ export default defineNuxtPlugin({
         if (token && type === 'recovery') {
           // For password reset, we don't need to redirect as the update-password page
           // will handle it directly through the Supabase client
-          console.log('Password reset flow detected')
         }
       }
     }
@@ -35,7 +34,6 @@ export default defineNuxtPlugin({
     watch(user, async (newUser, oldUser) => {
       if (newUser && !oldUser) {
         // User just logged in
-        console.log('User logged in, updating scores and syncing')
         
         try {
           // Update anonymous scores with the user ID

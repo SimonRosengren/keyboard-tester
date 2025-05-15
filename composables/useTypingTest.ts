@@ -236,7 +236,6 @@ export function useTypingTest() {
       
       // Then try to sync with Supabase
       if (navigator.onLine) {
-        console.log('Syncing to supabase...')
         await syncNewScore({ ...score, id: scoreId });
       }
       
