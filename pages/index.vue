@@ -99,6 +99,11 @@ onMounted(async () => {
   // Listen for the focus event from the typing test reset
   if (process.client) {
     document.addEventListener('typing-test-focused', () => {
+      // Clear any pending blur timeout
+      if (blurTimeout.value !== null) {
+        clearTimeout(blurTimeout.value);
+        blurTimeout.value = null;
+      }
       isFocused.value = true;
     });
   }

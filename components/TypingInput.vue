@@ -70,6 +70,8 @@ onMounted(() => {
     // Listen for the custom reset event
     document.addEventListener('typing-test-reset', () => {
       focusInput();
+      // Explicitly emit focus event when reset occurs
+      emit('focus', true);
     });
 
     inputRef.value.addEventListener('focus', () => {
