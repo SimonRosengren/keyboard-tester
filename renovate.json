@@ -3,11 +3,25 @@
   "extends": [
     "config:recommended"
   ],
+  "stabilityDays": 3,
+  "adoptionStrategy": "auto",
   "packageRules": [
     {
       "matchPackageNames": ["nuxt", "@nuxt/*", "vue", "@vue/*"],
       "groupName": "Nuxt and Vue core",
       "schedule": ["before 5am on Monday"]
-    }
+    },
+    {
+      "description": "Auto-merge patch updates for devDependencies",
+      "matchUpdateTypes": ["patch"],
+      "matchDepTypes": ["devDependencies"],
+      "automerge": true
+    },
+    {
+      "description": "Auto-merge minor updates for devDependencies",
+      "matchUpdateTypes": ["minor"],
+      "matchDepTypes": ["devDependencies"],
+      "automerge": true
+    },
   ]
 }
