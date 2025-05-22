@@ -7,7 +7,7 @@
     {
       "matchPackageNames": ["nuxt", "@nuxt/*", "vue", "@vue/*"],
       "groupName": "Nuxt and Vue core",
-      "schedule": ["weekly"]
+      "schedule": ["before 5am on Monday"]
     }
   ]
 }
