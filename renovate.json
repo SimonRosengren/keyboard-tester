@@ -3,8 +3,7 @@
   "extends": [
     "config:recommended"
   ],
-  "stabilityDays": 3,
-  "adoptionStrategy": "auto",
+  "stabilityDays": 7,
   "packageRules": [
     {
       "matchPackageNames": ["nuxt", "@nuxt/*", "vue", "@vue/*"],
