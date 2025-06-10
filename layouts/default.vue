@@ -5,5 +5,8 @@
     <div class="col-span-full sm:col-span-6 sm:col-start-2 md:col-start-4">
       <slot />
     </div>
+    <div class="col-span-full grid grid-cols-subgrid">
+      <Footer class="col-span-full sm:col-span-6 sm:col-start-2 md:col-start-4" />
+    </div>
   </div>
 </template>

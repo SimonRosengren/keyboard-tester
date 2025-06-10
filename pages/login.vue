@@ -79,12 +79,14 @@
         </div>
         
         <div>
-          <button 
+          <Button 
             type="submit"
-            class="w-full cursor-pointer flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-kq-black-200 bg-kq-yellow hover:bg-kq-yellow/90 !font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-kq-yellow"
+            size="M"
+            theme="YELLOW"
+            class="w-full"
           >
-            {{ isSignUp ? 'Sign up' : 'Sign in' }}
-          </button>
+            <template #main>{{ isSignUp ? 'Sign up' : 'Sign in' }}</template>
+          </Button>
         </div>
       </form>
       

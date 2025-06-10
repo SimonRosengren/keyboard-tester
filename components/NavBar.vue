@@ -17,23 +17,25 @@
             <div class="flex items-center gap-4">
               <img v-if="userStore.user?.user_metadata?.avatar_url" :src="userStore.user.user_metadata?.avatar_url" class="rounded-full w-7 h-7" />
               <Icon v-else name="solar:user-circle-bold" class="text-kq-yellow !w-7 !h-7" />
-              <button 
+              <Button 
                 @click="handleLogout" 
-                class="px-3 py-1 text-sm font-medium text-kq-black-200
-                border border-kq-yellow rounded-md"
+                size="S"
+                theme="YELLOW"
               >
-                Logout
-              </button>
+                <template #main>Logout</template>
+                <template #trailing><IconsLogin class="w-4 h-4" /></template>
+              </Button>
             </div>
           </template>
           <template v-else>
-            <NuxtLink 
-              to="/login" 
-              class="px-3 py-1 text-sm font-medium text-kq-black-200
-                bg-kq-yellow hover:bg-kq-yellow/95 active:bg-kq-yellow/90 transition-all 2s rounded-md"
+            <Button 
+              @click="async () => await navigateTo('/login')"
+              size="S"
+              theme="YELLOW"
             >
-              Login
-            </NuxtLink>
+              <template #main> Login</template>
+              <template #trailing><IconsLogin class="w-4 h-4" /></template>
+            </Button>
           </template>
         </div>
       </div>
