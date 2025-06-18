@@ -1,7 +1,7 @@
 <template>
-  <div class="w-full mt-8">
-    <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-      <Icon name="solar:user-circle-linear" class="text-kq-white !h-6 !w-6" />
+  <div class="w-full mt-8 rounded-t-md rounded-b-2xl bg-kq-black-200 pt-6 pb-12">
+    <h2 class="text-3xl font-bold mb-4 flex items-center gap-2 px-2">
+      <Icon name="solar:user-circle-linear" class="text-kq-white !h-8 !w-8" />
       Personal
     </h2>
     
@@ -21,27 +21,29 @@
       <table class="w-full border-collapse">
         <thead>
           <tr class="border-b border-kq-black-100 dark:border-kq-black-300">
-            <th class="py-2 px-4 text-left">#</th>
-            <th class="py-2 px-4 text-left">WPM</th>
-            <th class="py-2 px-4 text-left">Accuracy</th>
-            <th class="py-2 px-4 text-left">Words</th>
-            <th class="py-2 px-4 text-left">Date</th>
-            <th class="py-2 px-4 text-left">Status</th>
+            <th class="py-6 px-4 text-left">#</th>
+            <th class="py-6 px-4 text-left">WPM</th>
+            <th class="py-6 px-4 text-left">Accuracy</th>
+            <th class="py-6 px-4 text-left">Words</th>
+            <th class="py-6 px-4 text-left">Date</th>
+            <th class="py-6 px-4 text-left">Status</th>
           </tr>
         </thead>
         <tbody>
           <tr 
             v-for="(score, index) in highScores" 
             :key="`${score.remote ? 'remote' : 'local'}-${score.id}`"
-            class="border-b border-kq-black-100 dark:border-kq-black-300"
-            :class="{ 'opacity-70': !score.synced }"
+            :class="{ 
+              'opacity-70': !score.synced,
+              'border-b border-kq-black-100': index < highScores.length - 1,
+            }"
           >
-            <td class="py-2 px-4">{{ index + 1 }}</td>
-            <td class="py-2 px-4 font-bold">{{ score.wpm }}</td>
-            <td class="py-2 px-4">{{ Math.round(score.accuracy) }}%</td>
-            <td class="py-2 px-4">{{ score.wordCount }}</td>
-            <td class="py-2 px-4">{{ formatDate(new Date(score.date)) }}</td>
-            <td class="py-2 px-4">
+            <td class="py-6 px-4">{{ index + 1 }}</td>
+            <td class="py-6 px-4 font-bold">{{ score.wpm }}</td>
+            <td class="py-6 px-4">{{ Math.round(score.accuracy) }}%</td>
+            <td class="py-6 px-4">{{ score.wordCount }}</td>
+            <td class="py-6 px-4">{{ formatDate(new Date(score.date)) }}</td>
+            <td class="py-6 px-4">
               <span v-if="!score.synced" class="text-yellow-500 text-sm">
                 Local Only
               </span>

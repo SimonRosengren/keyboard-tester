@@ -5,7 +5,7 @@
         <IconsLogo class="h-8 w-auto" />
       </div>
       <div class="flex gap-8 items-center">
-        <NuxtLink to="/" class="hover:text-kq-yellow transition-colors">Play</NuxtLink>
+        <NuxtLink to="/" class="hover:text-kq-yellow transition-colors">Type</NuxtLink>
         <NuxtLink to="/highscore" class="hover:text-kq-yellow transition-colors">Highscore</NuxtLink>
         
         <!-- Sync status -->

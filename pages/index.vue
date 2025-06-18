@@ -50,7 +50,7 @@
       <div 
         v-if="!state.completed && !isFocused" 
         class="
-          absolute h-[240%] w-[180%] -left-[40%] -top-[70%]
+          absolute h-[340%] w-[180%] -left-[40%] -top-[70%]
           backdrop-blur-xl
           flex flex-col items-center justify-center
         "

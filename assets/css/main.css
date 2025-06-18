@@ -24,6 +24,10 @@
   html {
     font-family: var(--font-sans);
   }
+
+  body {
+    background: var(--color-kq-black-300)
+  }
   
   code, pre, kbd, samp {
     font-family: var(--font-mono);
