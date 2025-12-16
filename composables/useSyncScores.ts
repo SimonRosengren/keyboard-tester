@@ -1,6 +1,6 @@
 import type { TypingScore } from '~/types'
 
-export function useSyncScores() {
+ export function useSyncScores() {
   const { getUnsyncedScores, markAsSynced } = useIndexedDB()
   const { saveScore } = useSupabaseDB()
   const user = useSupabaseUser()
@@ -49,7 +49,7 @@ export function useSyncScores() {
   // Sync all unsynced scores
   const syncAllScores = async () => {
     if (!navigator.onLine) return false
-    
+    console.log('Syncing SCORES!')
     try {
       isSyncing.value = true
       syncError.value = null
