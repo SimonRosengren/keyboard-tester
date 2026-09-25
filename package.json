@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@nuxt/icon": "1.13.0",
-    "@nuxtjs/supabase": "^1.5.0",
+    "@nuxtjs/supabase": "^2.0.0",
     "@pinia/nuxt": "^0.11.0",
     "@tailwindcss/vite": "^4.1.4",
     "@vercel/analytics": "^1.6.1",
